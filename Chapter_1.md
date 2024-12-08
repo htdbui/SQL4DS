@@ -38,7 +38,6 @@
 - The idea of not storing redundant data is known as database normalization. In the book database example, we only store each author's full name once, no matter how many books they have written. In the doctor's office example, we don't store a patient's phone number repeatedly in the Appointments table, because it's already stored in the related “patient directory” table, and can be found by connecting the two tables via the Patient ID.
     - Normalization reduces the amount of storage space and the complexity of updating data, since each value is stored a minimal number of times.
     - Research “relational database design” for more information.
-- 
 
 # Dimensional Data Warehouses
  
