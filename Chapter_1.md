@@ -40,38 +40,35 @@
     - Research “relational database design” for more information.
 
 # Dimensional Data Warehouses
- 
+
+- Data warehouses contain data from various sources. They can be designed in a normalized relational database form (as described in the previous section) or other design standards. The data stored can be raw directly extracted from other databases, or summarized, which means it has been processed and transformed. This allows for the creation of analytical datasets that can be stored and referenced for multiple reports. Data warehouses can maintain historical data logs, real-time updated tables, or snapshots of data at a specific points in time.
+- Data warehouses often use dimensional modeling techniques for their design. One common approach within this technique is the "star schema." In a star schema, the data is divided into two types: facts and dimensions.
+	- Fact Table: Contains records with "metadata" about an entity and measures (usually numeric values) to track and summarize. For example, a transactional record of an item purchased at a retail store includes the timestamp, store number, order number, customer number, and amount paid.
+	- Dimension Table: Contains properties of the entity that can be used to group or "slice and dice" the fact records. For example, the store where the purchase was made is a dimension. The store dimension table would include additional information about the store, such as its name.
+	- By querying both fact and dimension tables, you can generate summaries, such as total purchases by store.
+- Transforming a doctor's office database into a star schema involves creating an appointments fact table and separate dimension tables for date and time:
+	- Appointments Fact Table: Records each appointment's occurrence, including details like the patient, booking time, reason, doctor, and scheduled time.
+	- Date Dimension: Stores properties of each appointment date, such as year, month, and day of the week.
+	- Time Dimension: Stores properties of each appointment time, such as hour and minute.
+	- This structure allows for easy analysis, such as counting appointments per time period or identifying the highest volume of appointment-booking calls, by grouping the fact data by different dimensions.
+![Figure 1.6](Fotos/Fig_1.6.png)
+- Figure 1.6 depicts an example dimensional data warehouse design. Can you see why this design is called a star schema? Schematic illustration of an example dimensional data warehouse design. 
+- In addition to the main appointments fact table, the data warehouse might include an appointment history log. This log records each change made to an appointment.
+	- Appointment History Log: Tracks modifications to appointments, such as changes in scheduled time, reassignment to different doctors, and the number of times an appointment was modified.
+	- This log allows for detailed analysis of appointment changes, providing insights into scheduling patterns, doctor reassignments, and the frequency of modifications.
+- In a dimensional model, more information is stored compared to a normalized relational database:
+	- Redundancy: Appointment records may appear multiple times in an appointment log table to track changes over time.
+	- Date Dimension: Contains a record for every calendar date, even if no appointments are scheduled for those dates. This table might include dates far into the future to facilitate long-term analysis.
+	- This approach increases data volume but simplifies querying and analysis by providing a comprehensive view of all relevant data.
+- When designing a database or data warehouse, a deep understanding of concepts like dimensional modeling and star schemas is essential. However, for querying the database to build analytical datasets, focus on two main aspects:
+	- Table Grain: The level of detail in the table, defined by the set of columns that make each row unique.
+	- Table Relationships: How tables are related to one another, such as through foreign keys.
+- With this knowledge, querying a dimensional data warehouse using SQL is similar to querying a relational database. You can use SQL to join tables, filter data, and perform aggregations based on the relationships and grain of the tables.
+
+# Asking Questions About the Data Source
 
 
 
-
-
-
-# Dimensional Data Warehouses
-
-Data warehouses often contain data from multiple underlying data sources. They can be designed in a normalized relational database form, as described in the previous section, or using other design standards. They may contain both “raw data” extracted from other databases directly, and “summary” tables that are combined or transformed versions of that raw data (for example, the analytical datasets you will learn to build in this book could be permanently stored as tables in a data warehouse, to be referenced by multiple reports). Data warehouses can contain historical data logs with past and current records, tables that are updated in real time as the source systems are updated, or snapshots of data to preserve it as it existed at a past moment in time.
-
-Often, data warehouses are designed using dimensional modeling techniques. We won't go in-depth into the details of dimensional modeling here, but one concept you are likely to come across when querying tables in data warehouses is a “star schema” design that divides the data into facts and dimensions.
-
-The way I think of facts and dimensions is that a record in a fact table contains the “metadata” of an entity, as well as any measures (which are usually numeric values) you want to track and later summarize. A dimension is property of that entity you can group or “slice and dice” the fact records by, and a dimension table will contain further information of that property.
-
-So, for example, a transactional record of an item purchased at a retail store is a fact, containing the timestamp of the purchase, the store number, order number, customer number, and the amount paid. The store the purchase was made at is a dimension of the item purchase fact, and the associated store dimension table would contain additional information about the store, such as its name. You could then query both the fact and the dimension tables to get a summary of purchases by store.
-
-If we transformed our doctor's office database into a star schema, we might have an appointments fact table capturing the occurrence of every appointment, which patient it was for, when it was booked, the reason for the appointment, which doctor it was with, and when it is scheduled to occur. We might also have a date dimension and a time dimension, storing the various properties of each appointment date and time (such as year or day of week) and appointment-booking date and time.
-
-This would allow us to easily count up how many appointments occurred per time period or determine when the highest volume of appointment-booking calls take place, by grouping the “transactional” fact information by different dimensions.
-
-Figure 1.6 depicts an example dimensional data warehouse design. Can you see why this design is called a star schema?
-
-Schematic illustration of an example dimensional data warehouse design.
-
-Figure 1.6
-
-There might also be an appointment history log in this data warehouse, with a record of each time the appointment was changed. That way, not only could we tell when the appointment is supposed to take place, but how many times it was modified, whether it was initially assigned to another doctor, etc.
-
-Note that when compared to a normalized relational database, a dimensional model stores a lot more information. Appointment records will appear multiple times in an appointment log table. There may be a record for every calendar date in the date dimension table, even if no appointments are scheduled for that date yet, and the list of dates might extend for decades into the future!
-
-If you're designing a database or data warehouse, you need to understand these concepts in much more detail than we'll cover here. But in order to query the database to build an analytical dataset, you primarily need to understand the data warehouse table grain (level of detail; what set of columns makes a row unique) and how the tables are related to one another. Once you have that information, querying a dimensional data warehouse with SQL is much like querying a relational database with SQL.
 
 # Asking Questions About the Data Source
 
