@@ -1,7 +1,13 @@
+---
+title: "SQL Chapter 4"
+author: "db"
+---
+
 # Introduction
 - In Chapters 2 and 3, you learned to specify columns and rows to pull from a database using the WHERE clause to filter rows. 
 - But what if you want a column or value based on a conditional statement? For example, instead of filtering purchases over $50, you want to flag each purchase as above or below $50. Or, you need to encode categorical strings into numeric values for a machine learning algorithm. These are called "derived columns" or "calculated fields" in SQL, and creating new columns with different values is known as "feature engineering." This is where CASE statements come in.
 - If you know "if" statements in languages like Python, SQL handles conditional logic similarly, just with different syntax.
+
 # CASE Statement Syntax
 - You use conditional reasoning daily, like "If [condition] is true, then [action]. Otherwise, [other action]." In SQL, this logic is implemented using a CASE statement with the following syntax:
 ```sql
@@ -32,7 +38,9 @@ SELECT
 - This query will always evaluate to "Yes" because 1=1 is always TRUE, and the 2=2 conditional statement is never evaluated, even though it is also true.
 - You should always alias columns with CASE statements for readability. In SQL, "aliasing columns" means giving a column a temporary name using the `AS` keyword.
 - The following Figure shows the vendor types in the Farmer's Market database:
+
 ![Figure 4.1](Fotos/Chapter4/Fig_4.1.png)
+
 - Let's say we want to label vendors primarily selling fresh produce. The vendors with "Fresh" in the `vendor_type` column are labeled as "Fresh Produce," and others as "Other":
 ```sql
 SELECT
@@ -46,12 +54,19 @@ SELECT
     END AS vendor_type_condensed -- Alias the column
 FROM farmers_market.vendor
 ```
+
 ![Figure 4.2](Fotos/Chapter4/Fig_4.2.png)
+<figcaption></figcaption>
+
 - The `LOWER()` function is used to lowercase the `vendor_type` string for comparison. The `UPPER()` function could also be used if the comparison string is all caps like `'%FRESH%'`.
 - If a new vendor type containing the word "fresh" is added to the database, the query using the `LIKE` comparison will automatically categorize it as "Fresh Produce" in the `vendor_type_condensed` column. To restrict the labeling to existing vendor types, use the `IN` keyword and explicitly list the vendor types to be labeled as "Fresh Produce". As a data analyst or data scientist, consider how changes in the underlying data might affect your transformed columns when building a dataset that may be refreshed with new data.
+
 # Creating Binary Flags Using CASE
 - A CASE statement can create a "binary flag field" containing 1s or 0s, often used in machine learning datasets. For example, the Farmer's Markets in the database occur on Wednesday evenings or Saturday mornings illustrated in the following Figure:
+
 ![Figure 4.3](Fotos/Chapter4/Fig_4.3.png)
+<figcaption></figcaption>
+
 - To convert the `market_day` string column into a binary flag field indicating weekday or weekend markets:
 ```sql
 SELECT
@@ -64,8 +79,12 @@ SELECT
 FROM farmers_market.market_date_info
 LIMIT 5
 ```
+
 ![Figure 4.4](Fotos/Chapter4/Fig_4.4.png)
+<figcaption></figcaption>
+
 - I included "Sunday" in the OR statement, even though our farmer's markets currently occur on Wednesday evenings and Saturday mornings. I named the field "weekend_flag" instead of "saturday_flag" to account for potential future markets on Sundays. This way, the CASE statement will still correctly flag it as a weekend market if the schedule changes. This approach ensures the field name accurately reflects its purpose and prepares for future changes with minimal additional computation.
+
 # Grouping or Binning Continuous Values Using CASE
 - In Chapter 3, we filtered customer purchases over $50 using the WHERE clause. To return all rows and indicate whether the cost was over $50, we can use this query:
 ```sql
@@ -82,7 +101,10 @@ SELECT
 FROM farmers_market.customer_purchases
 LIMIT 10
 ```
+
 ![Figure 4.5](Fotos/Chapter4/Fig_4.5.png)
+<figcaption></figcaption>
+
 - CASE statements can also "bin" continuous variables like price. To group line-item customer purchases into price bins:
 ```sql
 SELECT
@@ -103,7 +125,10 @@ SELECT
 FROM farmers_market.customer_purchases
 LIMIT 10
 ```
+
 ![Figure 4.6](Fotos/Chapter4/Fig_4.6.png)
+<figcaption></figcaption>
+
 - To output the bottom end of the numeric range for the bins:
 ```sql
 SELECT
@@ -124,8 +149,12 @@ SELECT
 FROM farmers_market.customer_purchases
 LIMIT 10
 ```
+
 ![Figure 4.7](Fotos/Chapter4/Fig_4.7.png)
+<figcaption></figcaption>
+
 - One query generates a new column of strings, and the other generates a new column of numbers. Including both columns in your query can be useful for reports: the `price_bin` column provides explanatory labels but sorts alphabetically, while the numeric column sorts bins correctly. Without an `ELSE` in the CASE statement, the output will be NULL if the quantity field is blank or the calculation fails. If a price is mis-entered or a refund is recorded, negative values will fall into the "Under $5" or 0 bin, making `price_bin_lower_end` a misnomer. Ensure your CASE statements handle unexpected values appropriately.
+
 # Categorical Encoding Using CASE
 - Machine learning datasets often require encoding categorical string variables as numeric values. If the categories represent a rank order, convert the string variables into numeric values representing that order. For example, the vendor booth price levels labeled "A," "B," and "C" can be converted into numeric values 1, 2, 3. The following CASE statement converts booth price levels into numeric values:
 ```sql
@@ -140,7 +169,10 @@ SELECT
 FROM farmers_market.booth
 LIMIT 5
 ```
+
 ![Figure 4.8](Fotos/Chapter4/Fig_4.8.png)
+<figcaption></figcaption>
+
 - If categories have no rank order, like vendor types, use "one-hot encoding." This creates a new column for each category, assigning a binary value of 1 if a row falls into that category, and 0 otherwise. These columns are called "dummy variables." The following CASE statement one-hot encodes vendor type categories:
 ```sql
 SELECT 
@@ -169,8 +201,12 @@ SELECT
     END AS vendor_type_prepared 
 FROM farmers_market.vendor
 ```
+
 ![Figure 4.9](Fotos/Chapter4/Fig_4.9.png)
+<figcaption></figcaption>
+
 - When manually encoding one-hot categorical variables, if a new category is added (e.g., a new vendor type), there will be no column for the new category until you add another CASE statement.
+
 # CASE Statement Summary
 - In this chapter, you learned SQL CASE statement syntax for creating new columns with values based on conditions. You also learned how to consolidate categorical values, create binary flags, bin continuous values, and encode categorical values. You should now be able to describe what the following two queries do.
 - Query 1:
@@ -184,7 +220,10 @@ SELECT
 FROM farmers_market.customer 
 LIMIT 10
 ```
+
 ![Figure 4.10](Fotos/Chapter4/Fig_4.10.png)
+<figcaption></figcaption>
+
 - Query 2:
 ```sql
 SELECT 
@@ -204,7 +243,9 @@ SELECT
 FROM farmers_market.booth 
 LIMIT 5
 ```
+
 ![Figure 4.11](Fotos/Chapter4/Fig_4.11.png)
+
 # Excercises
 - Look back at Figure 2.1 in Chapter 2 for sample data and column names for the 
 product table referenced in these exercises.
