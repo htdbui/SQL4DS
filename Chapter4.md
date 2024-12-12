@@ -1,3 +1,8 @@
+# Introduction
+- In Chapters 2 and 3, you learned to specify columns and rows to pull from a database using the WHERE clause to filter rows. 
+- But what if you want a column or value based on a conditional statement? For example, instead of filtering purchases over $50, you want to flag each purchase as above or below $50. Or, you need to encode categorical strings into numeric values for a machine learning algorithm. These are called "derived columns" or "calculated fields" in SQL, and creating new columns with different values is known as "feature engineering." This is where CASE statements come in.
+- If you know "if" statements in languages like Python, SQL handles conditional logic similarly, just with different syntax.
+# CASE Statement Syntax
 
 
 
@@ -15,13 +20,13 @@
 
 <br><br><br><br><br><br><br><br><br>
     <section aria-label="chapter opening" class="calibre2"><span id="calibre_link-26" class="calibre"></span>
-<p id="calibre_link-27" class="calibre8">In <a href="c02.xhtml" class="calibre6">Chapters 2</a>, “The SELECT Statement,” and <a href="c03.xhtml" class="calibre6">3</a>, “The WHERE Clause,” you learned how to specify which columns and rows you want to pull from a database table into your dataset. We used the WHERE clause to filter rows using conditional statements that must evaluate to TRUE in order for a row to be returned.</p>
-<p class="calibre8">But what if, instead of using conditional statements to filter rows, you want a column or value in your dataset to be based on a conditional statement? For example, instead of filtering your results to purchases over $50, say you just want to return all rows and create a new column that flags each purchase as being above or below $50? Or, maybe the machine learning algorithm you want to use can't accept a categorical string column as an input feature, so you want to encode those categories into numeric values. These are a version of what SQL developers call “derived columns” or “calculated fields,” and creating new columns that present the values differently is what data scientists call “feature engineering.” This is where CASE statements come in.</p>
+<p id="calibre_link-27" class="calibre8">In <a href="c02.xhtml" class="calibre6">Chapters 2</a>, ï¿½The SELECT Statement,ï¿½ and <a href="c03.xhtml" class="calibre6">3</a>, ï¿½The WHERE Clause,ï¿½ you learned how to specify which columns and rows you want to pull from a database table into your dataset. We used the WHERE clause to filter rows using conditional statements that must evaluate to TRUE in order for a row to be returned.</p>
+<p class="calibre8">But what if, instead of using conditional statements to filter rows, you want a column or value in your dataset to be based on a conditional statement? For example, instead of filtering your results to purchases over $50, say you just want to return all rows and create a new column that flags each purchase as being above or below $50? Or, maybe the machine learning algorithm you want to use can't accept a categorical string column as an input feature, so you want to encode those categories into numeric values. These are a version of what SQL developers call ï¿½derived columnsï¿½ or ï¿½calculated fields,ï¿½ and creating new columns that present the values differently is what data scientists call ï¿½feature engineering.ï¿½ This is where CASE statements come in.</p>
 <aside class="calibre9">
 <div class="top"><hr class="calibre10" /></div>
 <section class="feature">
 <h3 class="calibre11">NOTE</h3>
-<p id="calibre_link-28" class="calibre12">If you're familiar with other scripting languages like Python that use “if” statements, you'll find that SQL handles conditional logic somewhat similarly, just with different syntax.</p>
+<p id="calibre_link-28" class="calibre12">If you're familiar with other scripting languages like Python that use ï¿½ifï¿½ statements, you'll find that SQL handles conditional logic somewhat similarly, just with different syntax.</p>
 <div class="top"><hr class="calibre10" /></div>
 </section>
 </aside>
@@ -30,7 +35,7 @@
 
     <section aria-labelledby="head-2-40" class="calibre2"><span id="calibre_link-31" class="calibre"></span>
 <h2 id="calibre_link-32" class="calibre14">CASE Statement Syntax</h2>
-<p class="calibre8">You use conditional reasoning in your daily life any time you think “If [one condition] is true, then [take this action]. Otherwise, [take this other action].” “If the weather forecast predicts it will rain today, then I'll take an umbrella with me. Otherwise, I'll leave the umbrella at home.” In SQL, the code to delineate this type of logic is called a CASE statement, which uses the following syntax:</p>
+<p class="calibre8">You use conditional reasoning in your daily life any time you think ï¿½If [one condition] is true, then [take this action]. Otherwise, [take this other action].ï¿½ ï¿½If the weather forecast predicts it will rain today, then I'll take an umbrella with me. Otherwise, I'll leave the umbrella at home.ï¿½ In SQL, the code to delineate this type of logic is called a CASE statement, which uses the following syntax:</p>
 <pre id="calibre_link-33" class="calibre15">
 <code class="calibre16">CASE</code>
    
@@ -75,7 +80,7 @@ s are evaluated in order, from top to bottom, and the first time a condition eva
    
 <code class="calibre16"> END</code>
 </pre>
-<p id="calibre_link-37" class="calibre8">This query will always evaluate to “Yes,” because 1=1 is always TRUE, and therefore the 2=2 conditional statement is never evaluated, even though it is also true.</p>
+<p id="calibre_link-37" class="calibre8">This query will always evaluate to ï¿½Yes,ï¿½ because 1=1 is always TRUE, and therefore the 2=2 conditional statement is never evaluated, even though it is also true.</p>
 <p id="calibre_link-38" class="calibre8">The 
 <code class="calibre16">ELSE</code>
  part of the statement is optional, and that value or calculation result is returned if none of the conditional statements above it evaluate to TRUE. If the 
@@ -92,7 +97,7 @@ s are evaluated in order, from top to bottom, and the first time a condition eva
 <p class="calibre8"><span class="figurelabel"><a href="#calibre_link-2" id="calibre_link-1" role="doc-backlink" class="calibre6">Figure 4.1</a></span></p>
 </figcaption>
 </figure>
-<p class="calibre8">The vendors we want to label as “Fresh Produce” have the word “Fresh” in the 
+<p class="calibre8">The vendors we want to label as ï¿½Fresh Produceï¿½ have the word ï¿½Freshï¿½ in the 
 <code class="calibre16">vendor_type</code>
  column. We can use a 
 <code class="calibre16">CASE</code>
@@ -100,7 +105,7 @@ s are evaluated in order, from top to bottom, and the first time a condition eva
 <code class="calibre16">LIKE</code>
  operator that was covered in <a href="c03.xhtml" class="calibre6">Chapter 3</a> to create a new column, which we'll alias 
 <code class="calibre16">vendor_type_condensed</code>
-, that condenses the vendor types to just “Fresh Produce” or “Other”:</p>
+, that condenses the vendor types to just ï¿½Fresh Produceï¿½ or ï¿½Otherï¿½:</p>
 <pre id="calibre_link-42" class="calibre15">
 <code class="calibre16">SELECT </code>
    
@@ -137,18 +142,18 @@ s are evaluated in order, from top to bottom, and the first time a condition eva
  would have also worked, if we then made the comparison string all caps: 
 <code class="calibre16">'%FRESH%'</code>
 .</p>
-<p id="calibre_link-45" class="calibre8"><span aria-label="52" type="pagebreak" id="calibre_link-46" role="doc-pagebreak" class="calibre13"></span>If a new vendor type is added to the database that includes the word “fresh,” this query using the 
+<p id="calibre_link-45" class="calibre8"><span aria-label="52" type="pagebreak" id="calibre_link-46" role="doc-pagebreak" class="calibre13"></span>If a new vendor type is added to the database that includes the word ï¿½fresh,ï¿½ this query using the 
 <code class="calibre16">LIKE</code>
- comparison would automatically categorize it as “Fresh Produce” in the 
+ comparison would automatically categorize it as ï¿½Fresh Produceï¿½ in the 
 <code class="calibre16">vendor_type_condensed</code>
  column. If we only wanted existing vendor types to be labeled using this logic, we could instead use the 
 <code class="calibre16">IN</code>
- keyword and explicitly list the existing vendor types we want to label with the “Fresh Produce” category. As a data analyst or data scientist building a dataset that may be refreshed as new data is added to the database, you should always consider what might happen to your transformed columns if the underlying data changes.</p>
+ keyword and explicitly list the existing vendor types we want to label with the ï¿½Fresh Produceï¿½ category. As a data analyst or data scientist building a dataset that may be refreshed as new data is added to the database, you should always consider what might happen to your transformed columns if the underlying data changes.</p>
 </section>
 
     <section aria-labelledby="head-2-41" class="calibre2"><span id="calibre_link-47" class="calibre"></span>
 <h2 id="calibre_link-48" class="calibre14">Creating Binary Flags Using CASE</h2>
-<p class="calibre8">A CASE statement can be used to create a “binary flag field,” which is a type of field that's often found in machine learning datasets. A binary flag field contains only 1s or 0s, usually indicating a “Yes” or “No” or “exists” or “doesn't exist” type of value. For example, the Farmer's Markets in our database all occur on Wednesday evenings or Saturday mornings. Many machine learning algorithms won't know what to do with the words “Wednesday” and “Saturday” that appear in our database, as shown in the 
+<p class="calibre8">A CASE statement can be used to create a ï¿½binary flag field,ï¿½ which is a type of field that's often found in machine learning datasets. A binary flag field contains only 1s or 0s, usually indicating a ï¿½Yesï¿½ or ï¿½Noï¿½ or ï¿½existsï¿½ or ï¿½doesn't existï¿½ type of value. For example, the Farmer's Markets in our database all occur on Wednesday evenings or Saturday mornings. Many machine learning algorithms won't know what to do with the words ï¿½Wednesdayï¿½ and ï¿½Saturdayï¿½ that appear in our database, as shown in the 
 <code class="calibre16">market_day column</code>
  of <a href="#calibre_link-5" id="calibre_link-6" class="calibre6">Figure 4.3</a>:</p>
 <pre id="calibre_link-49" class="calibre15">
@@ -166,9 +171,9 @@ s are evaluated in order, from top to bottom, and the first time a condition eva
 <p class="calibre8"><span class="figurelabel"><a href="#calibre_link-6" id="calibre_link-5" role="doc-backlink" class="calibre6">Figure 4.3</a></span></p>
 </figcaption>
 </figure>
-<p class="calibre8">But, the algorithm could use a numeric value as an input. So, how might we turn this string column into a number? One approach we can take to including the market day in our dataset is to generate a binary flag field that indicates whether it's a weekday or weekend market. We can do this with a CASE statement, making a new column that contains a 1 if the market occurs on a Saturday or Sunday, and a 0 if it doesn't, calling the field “
+<p class="calibre8">But, the algorithm could use a numeric value as an input. So, how might we turn this string column into a number? One approach we can take to including the market day in our dataset is to generate a binary flag field that indicates whether it's a weekday or weekend market. We can do this with a CASE statement, making a new column that contains a 1 if the market occurs on a Saturday or Sunday, and a 0 if it doesn't, calling the field ï¿½
 <code class="calibre16">weekend_flag</code>
-,” as shown in <a href="#calibre_link-7" id="calibre_link-8" class="calibre6">Figure 4.4</a>.</p>
+,ï¿½ as shown in <a href="#calibre_link-7" id="calibre_link-8" class="calibre6">Figure 4.4</a>.</p>
 <pre id="calibre_link-50" class="calibre15">
 <code class="calibre16">SELECT </code>
    
@@ -192,13 +197,13 @@ s are evaluated in order, from top to bottom, and the first time a condition eva
 <p class="calibre8"><span class="figurelabel"><a href="#calibre_link-8" id="calibre_link-7" role="doc-backlink" class="calibre6">Figure 4.4</a></span></p>
 </figcaption>
 </figure>
-<p id="calibre_link-52" class="calibre8">You may have noticed that I included “Sunday” in the 
+<p id="calibre_link-52" class="calibre8">You may have noticed that I included ï¿½Sundayï¿½ in the 
 <code class="calibre16">OR</code>
- statement, even though we said earlier that our farmer's markets currently occur on Wednesday evenings and Saturday mornings. I had decided to call the field “
+ statement, even though we said earlier that our farmer's markets currently occur on Wednesday evenings and Saturday mornings. I had decided to call the field ï¿½
 <code class="calibre16">weekend_flag</code>
-” instead of “saturday_flag” because when creating this example, I imagined an analytical question that could be asked: “Do farmers sell more produce at our weekend market or at our weekday market?” If the farmer's market ever changes or expands its schedule to hold a market on a Sunday, this CASE statement will still correctly flag it as a weekend market for the analysis. There is not much downside to making the field aliased “
+ï¿½ instead of ï¿½saturday_flagï¿½ because when creating this example, I imagined an analytical question that could be asked: ï¿½Do farmers sell more produce at our weekend market or at our weekday market?ï¿½ If the farmer's market ever changes or expands its schedule to hold a market on a Sunday, this CASE statement will still correctly flag it as a weekend market for the analysis. There is not much downside to making the field aliased ï¿½
 <code class="calibre16">weekend_flag</code>
-” actually mean what it's called (except for the tiny additional computation done to check the second 
+ï¿½ actually mean what it's called (except for the tiny additional computation done to check the second 
 <code class="calibre16">OR</code>
  condition when necessary, which is unlikely to make any noticeable difference for data on the scale most farmer's markets could collect) and planning for the future possibility of other market days when designing a dataset to answer this question.</p>
 </section>
@@ -238,7 +243,7 @@ s are evaluated in order, from top to bottom, and the first time a condition eva
 <p class="calibre8"><span class="figurelabel"><a href="#calibre_link-10" id="calibre_link-9" role="doc-backlink" class="calibre6">Figure 4.5</a></span></p>
 </figcaption>
 </figure>
-<p class="calibre8">CASE statements can also be used to “bin” a continuous variable, such as price. Let's say we wanted to put the line-item customer purchases into bins of under $5.00, $5.00&ndash;$9.99, $10.00&ndash;$19.99, or $20.00 and over. We could accomplish that with a 
+<p class="calibre8">CASE statements can also be used to ï¿½binï¿½ a continuous variable, such as price. Let's say we wanted to put the line-item customer purchases into bins of under $5.00, $5.00&ndash;$9.99, $10.00&ndash;$19.99, or $20.00 and over. We could accomplish that with a 
 <code class="calibre16">CASE</code>
  statement in which we surround the values after the 
 <code class="calibre16">THEN</code>
@@ -330,15 +335,15 @@ s in single quotes to generate a column that contains a string label, as shown i
  inside the 
 <code class="calibre16">CASE</code>
  statement, the output will be NULL if the quantity field is blank or the calculation can't be completed with the available values for whatever reason.</p>
-<p id="calibre_link-64" class="calibre8">If there is a mis-entered price, or perhaps a record of a refund, and the value in the price column turns out to be negative in one row, what do you think will happen? In the preceding queries, the first condition is “less than 5,” so negative values will end up in the “Under $5,” or 0, bin. Therefore, the name 
+<p id="calibre_link-64" class="calibre8">If there is a mis-entered price, or perhaps a record of a refund, and the value in the price column turns out to be negative in one row, what do you think will happen? In the preceding queries, the first condition is ï¿½less than 5,ï¿½ so negative values will end up in the ï¿½Under $5,ï¿½ or 0, bin. Therefore, the name 
 <code class="calibre16">price:bin_lower_end</code>
  is a misnomer, since 0 might not actually represent the lowest value possible in the first bin. It's important when writing CASE statements for analytical purposes to determine what the result will be if there end up being unexpected values in any of the referenced database fields.</p>
 </section>
 
     <section aria-labelledby="head-2-43" class="calibre2"><span id="calibre_link-65" class="calibre"></span>
 <h2 id="calibre_link-66" class="calibre14">Categorical Encoding Using CASE</h2>
-<p id="calibre_link-67" class="calibre8">When developing datasets for machine learning, you will often need to “encode” categorical string variables as numeric variables, in order for a mathematical algorithm to be able to use them as input.</p>
-<p class="calibre8">If the categories represent something that can be sorted in a rank order, it might make sense to convert the string variables into numeric values that represent that rank order. For example, the vendor booths at the farmer's market are rented out at different costs, depending on their size and proximity to the entrance. These booth price levels are labeled with the letters “A,” “B,” and “C,” in order by increasing price, which could be converted into either numeric values 1, 2, 3 or the actual booth prices. The following 
+<p id="calibre_link-67" class="calibre8">When developing datasets for machine learning, you will often need to ï¿½encodeï¿½ categorical string variables as numeric variables, in order for a mathematical algorithm to be able to use them as input.</p>
+<p class="calibre8">If the categories represent something that can be sorted in a rank order, it might make sense to convert the string variables into numeric values that represent that rank order. For example, the vendor booths at the farmer's market are rented out at different costs, depending on their size and proximity to the entrance. These booth price levels are labeled with the letters ï¿½A,ï¿½ ï¿½B,ï¿½ and ï¿½C,ï¿½ in order by increasing price, which could be converted into either numeric values 1, 2, 3 or the actual booth prices. The following 
 <code class="calibre16">CASE</code>
  statement converts the booth price levels into numeric values, and the results are shown in <a href="#calibre_link-15" id="calibre_link-16" class="calibre6">Figure 4.8</a>:</p>
 <pre id="calibre_link-68" class="calibre15">
@@ -366,7 +371,7 @@ s in single quotes to generate a column that contains a string label, as shown i
 <p class="calibre8"><span class="figurelabel"><a href="#calibre_link-16" id="calibre_link-15" role="doc-backlink" class="calibre6">Figure 4.8</a></span></p>
 </figcaption>
 </figure>
-<p class="calibre8">If the categories aren't necessarily in any kind of rank order, like our vendor type categories, we might use a method called “one-hot encoding.” This helps us avoid inadvertently indicating a sort order when none exists. One-hot encoding means that we create a new column representing each category, assigning it a binary value of 1 if a row falls into that category, and a 0 otherwise. These columns are sometimes called “dummy variables.” The following CASE statement one-hot encodes our vendor type categories, and the results are demonstrated in <a href="#calibre_link-17" id="calibre_link-18" class="calibre6">Figure 4.9</a>:</p>
+<p class="calibre8">If the categories aren't necessarily in any kind of rank order, like our vendor type categories, we might use a method called ï¿½one-hot encoding.ï¿½ This helps us avoid inadvertently indicating a sort order when none exists. One-hot encoding means that we create a new column representing each category, assigning it a binary value of 1 if a row falls into that category, and a 0 otherwise. These columns are sometimes called ï¿½dummy variables.ï¿½ The following CASE statement one-hot encodes our vendor type categories, and the results are demonstrated in <a href="#calibre_link-17" id="calibre_link-18" class="calibre6">Figure 4.9</a>:</p>
 <pre id="calibre_link-70" class="calibre15">
 <code class="calibre16">SELECT </code>
    
@@ -505,14 +510,14 @@ s in single quotes to generate a column that contains a string label, as shown i
 <code class="calibre16">product</code>
  table, and add a column called 
 <code class="calibre16">prod_qty_type_condensed</code>
- that displays the word “unit” if the 
+ that displays the word ï¿½unitï¿½ if the 
 <code class="calibre16">product_qty_type</code>
- is “unit,” and otherwise displays the word “bulk.”</li>
+ is ï¿½unit,ï¿½ and otherwise displays the word ï¿½bulk.ï¿½</li>
 <li id="calibre_link-84" class="calibre19">We want to flag all of the different types of pepper products that are sold at the market. Add a column to the previous query called 
 <code class="calibre16">pepper_flag</code>
  that outputs a 1 if the 
 <code class="calibre16">product_name</code>
- contains the word “pepper” (regardless of capitalization), and otherwise outputs 0.</li>
+ contains the word ï¿½pepperï¿½ (regardless of capitalization), and otherwise outputs 0.</li>
 <li id="calibre_link-85" class="calibre19">Can you think of a situation when a pepper product might not get flagged as a pepper product using the code from the previous exercise?</li>
 </ol>
 </section>
