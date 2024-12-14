@@ -3,16 +3,82 @@ title: "SQL Chapter 7"
 author: "db"
 ---
 
+# Introduction
 
+- All the functions we have learned so far, like ROUND(), return one value for each row in the results. When we use GROUP BY, the functions work on multiple values in a group of records, summarizing across many rows in the dataset, like AVG(). But each value returned is still linked to a single row in the results.
+- Window functions also work on multiple records, but these records don't need to be grouped in the output. This allows us to compare the values from one row to a group of rows, or partition. This helps us answer questions like: If the dataset was sorted, where would this row be? How does a value in this row compare to the value in the previous row? How does a value in the current row compare to the average value for its group?
+- So, window functions return group aggregate calculations along with individual row-level information for items in that group or partition. They can also be used to rank or sort values within each partition.
+- One use for window functions in data science is to include information from a past record with the most recent record related to an entity. For example, we could use window functions to get the date of the first purchase a person made at the farmer’s market and show it with their detailed purchase records. This could help us see how long they had been a customer at the time of each purchase.
 
+# ROW NUMBER
 
+- Based on what you’ve learned in previous chapters, if you wanted to find out the cost of the most expensive product sold by each vendor, you could group the records in the `vendor_inventory` table by `vendor_id` and return the highest `original_price` value using the following query:
 
+```sql
+SELECT 
+    vendor_id, 
+    MAX(original_price) AS highest_price 
+FROM farmers_market.vendor_inventory 
+GROUP BY vendor_id
+ORDER BY vendor_id
+```
 
+- But this just gives you the price of the most expensive item per vendor. If you wanted to know which item was the most expensive, how would you find out which `product_id` was linked to that `MAX(original_price)` per vendor?
+- There is a window function that lets you rank rows by a value — in this case, ranking products per vendor by price — called `ROW_NUMBER()`. This approach will allow you to keep the detailed information that you would otherwise lose by aggregating like we did in the previous query:
 
+```sql
+SELECT 
+    vendor_id, 
+    market_date, 
+    product_id, 
+    original_price,
+    ROW_NUMBER() OVER (PARTITION BY vendor_id ORDER BY original_price DESC) AS 
+price_rank
+FROM farmers_market.vendor_inventoryORDER BY vendor_id, original_price DESC
+```
 
+- Let’s break that syntax down a bit. The `ROW_NUMBER()` line means “number the rows of inventory per vendor, sorted by original price, in descending order.” The part inside the parentheses shows how to apply the `ROW_NUMBER()` function. We’re going to `PARTITION BY vendor_id` (this is like a `GROUP BY` without combining the rows, so we’re telling it how to split the rows into groups, without aggregating). Then within the partition, the `ORDER BY` shows how to sort the rows. So, we’ll sort the rows by price, high to low, within each `vendor_id` partition, and number each row. That means the highest-priced item per vendor will be first, and assigned row number 1.
+- You can see in Figure 7.1 that for each vendor, the products are sorted by `original_price`, high to low, and the row numbering column is called `price_rank`. The row numbering starts over when you get to the next `vendor_id`, so the most expensive item per vendor has a `price_rank` of 1.
 
+![Figure 7.1](Fotos/Chapter7/Fig_7.1.png)
+<figcaption></figcaption>
 
+- To return only the record of the highest-priced item per vendor, you can query the results of the previous query (this is called a subquery) and limit the output to the #1 ranked item per `vendor_id`. With this approach, you’re not using a `GROUP BY` to aggregate the records. You’re sorting the records within each partition (a set of records that share a value or combination of values — `vendor_id` in this case), then filtering to a value (the row number called `price_rank` here) that was evaluated over that partition. Figure 7.2 shows the highest-priced product per vendor using the following query:
 
+```sql
+SELECT * FROM
+(
+    SELECT 
+        vendor_id, 
+        market_date,
+        product_id, 
+        original_price,
+          ROW_NUMBER() OVER (PARTITION BY vendor_id ORDER BY original_price DESC) AS 
+price_rank
+    FROM farmers_market.vendor_inventory 
+    ORDER BY vendor_id) x
+WHERE x.price_rank = 1
+```
+
+![Figure 7.2](Fotos/Chapter7/Fig_7.2.png)
+<figcaption></figcaption>
+
+- This will only return one row per vendor, even if there are multiple products with the same price. To return all products with the highest price per vendor when there is more than one with the same price, use the `RANK` function found in the next section. 
+- If you want to determine which one of the multiple items gets returned by this `ROW_NUMBER` function, you can add additional sorting columns in the `ORDER BY` section of the `ROW_NUMBER` function. For example, you can sort by both `original_price` (descending) and `market_date` (ascending) to get the product brought to market by each vendor the earliest that had this top price.
+- You’ll notice that the preceding query has a different structure than the queries we have written so far. There is one query embedded inside the other! Sometimes this is called “querying from a derived table,” but is more commonly called a “subquery.” 
+- What we’re doing is treating the results of the “inner” `SELECT` statement like a table, here given the table alias x, selecting all columns from it, and filtering to only the rows with a particular `ROW_NUMBER`. Our `ROW_NUMBER` column is aliased `price_rank`, and we’re filtering to `price_rank = 1`, because we numbered the rows by `original_price` in descending order, so the most expensive item will have the lowest row number.
+- The reason we have to structure this as a subquery is that the entire dataset has to be processed in order for the window function to find the highest price per vendor. So we can’t filter the results using a `WHERE` clause (which you’ll remember evaluates the conditional statements row by row) because when that filtering is applied, the `ROW_NUMBER` has not yet been calculated for every row.
+- Figure 7.3 illustrates which parts of the SQL statement are considered the “inner” and “outer” queries. The “outer” part of a subquery is processed after the “inner” query is complete, so the row numbers have been determined, and we can then filter by the values in the price_rank column.
+
+![Figure 7.3](Fotos/Chapter7/Fig_7.3.png)
+<figcaption></figcaption>
+
+- Many SQL editors allow you to run the inner query by itself. You can do this by highlighting it and executing the selected SQL only. This allows you to preview the results of the inner query that will then be used by the outer query.
+- If we didn’t use a subquery and tried to filter based on the values in the `price_rank` field by adding a `WHERE` clause to the first query with the `ROW_NUMBER` function, we would get an error. The `price_rank` value is unknown when the `WHERE` clause conditions are evaluated per row because the window functions have not yet checked the entire dataset to determine the ranking. If we tried to put the `ROW_NUMBER` function in the `WHERE` clause instead of referencing the `price_rank` alias, we would get a different error for the same reason.
+- You will see the subquery format throughout this chapter. This is because if you want to do anything with the results of most window functions, you have to allow them to calculate across the entire dataset first. Then, by treating the results like a table, you can query from and filter by the results returned by the window functions.
+- Note that you can also use `ROW_NUMBER` without a `PARTITION BY` clause to number every record across the whole result (instead of numbering per partition). If you use the same ORDER BY clause we did earlier and eliminate the `PARTITION BY` clause, then only one item with the highest price in the entire results set would get the `price_rank` of 1, instead of one item per vendor.
+
+# RANK and DENSE RANK
 
 
 
