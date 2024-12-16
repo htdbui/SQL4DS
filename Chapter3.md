@@ -165,7 +165,7 @@ WHERE
 ![Figure 3.8](Fotos/Chapter3/Fig_3.8.png)
 <figcaption></figcaption>
 
-- The conditions don't have to be "exact match" filters using equals signs. For example, to find out which booth(s) vendor 2 was assigned to on or before March 9, 2019, you could use this query:
+- The conditions don't have to be "exact match" filters using equals signs. For example, to find out which booth(s) vendor 9 was assigned to on or before March 9, 2019, you could use this query:
 ```sql
 SELECT *
 FROM farmers_market.vendor_booth_assignments 
