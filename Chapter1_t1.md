@@ -1,5 +1,5 @@
 ---
-title: "SQL Chapter 1 Short 1"
+title: "SQL Chapter 1 Time 1"
 author: "db"
 ---
 

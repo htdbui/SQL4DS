@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>The WHERE Clause</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <hr>
+<h2 id="title-sql-chapter-3-time-1author-db">title: &quot;SQL Chapter 3 Time 1&quot;
+author: &quot;db&quot;</h2>
+<h1 id="the-where-clause">The WHERE Clause</h1>
+<ul>
+<li>The WHERE clause in a SELECT statement lists conditions to filter rows in the result set.</li>
+<li>It uses boolean logic like &quot;AND&quot; or &quot;OR&quot; to check data against conditions.</li>
+<li>It determines which rows to include.</li>
+<li>Similar to &quot;IF&quot; statements in other languages, it filters data based on conditions.</li>
+</ul>
+<h1 id="filtering-select-statement-results">Filtering SELECT Statement Results</h1>
+<ul>
+<li>The WHERE clause follows the FROM statement.</li>
+<li>It precedes any GROUP BY, ORDER BY, or LIMIT statements in a SELECT query.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> [columns <span class="hljs-keyword">to</span> <span class="hljs-keyword">return</span>]
+<span class="hljs-keyword">FROM</span> [<span class="hljs-keyword">table</span>]
+<span class="hljs-keyword">WHERE</span> [conditional <span class="hljs-keyword">filter</span> statements]
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> [columns <span class="hljs-keyword">to</span> sort <span class="hljs-keyword">on</span>]
+LIMIT [number <span class="hljs-keyword">of</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">return</span>]
+</code></pre>
+<ul>
+<li>For example, to get a list of product IDs and product names in product category 1:
+<ul>
+<li>Use a conditional statement in the WHERE clause.</li>
+<li>Select only rows where the product_category_id is 1.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    product_id,
+    product_name,
+    product_category_id
+<span class="hljs-keyword">FROM</span> farmers_market.product
+<span class="hljs-keyword">WHERE</span> product_category_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.1.png" alt="Figure 3.1"></p>
+<figcaption></figcaption>
+<ul>
+<li>In Chapter 2, &quot;The SELECT Statement,&quot; we returned a list of prices for items purchased by customers at the farmer's market.</li>
+<li>We displayed the market date, customer ID, vendor ID, and calculated price.</li>
+<li>To print a report of everything a particular customer has ever purchased at the farmer's market:
+<ul>
+<li>Use a WHERE clause to filter the results to a specific customer ID.</li>
+<li>Use an ORDER BY clause to sort by market date, vendor ID, and product ID.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    product_id,
+    quantity,
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty <span class="hljs-keyword">AS</span> price
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">WHERE</span> customer_id <span class="hljs-operator">=</span> <span class="hljs-number">4</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, vendor_id, product_id
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.2.png" alt="Figure 3.2"></p>
+<figcaption></figcaption>
+<ul>
+<li>Each condition in the WHERE clause evaluates to TRUE or FALSE for each row.</li>
+<li>Only rows where the conditions are TRUE are returned.</li>
+<li>For example, if a table has transactional data (see Table 3.1):
+<ul>
+<li>The condition &quot;customer_id = 4&quot; will be TRUE only for rows where customer_id is 4.</li>
+<li>The results will include only those rows.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Tab_3.1.png" alt="Table 3.1"></p>
+<figcaption></figcaption>
+<ul>
+<li>The customer_id values in the table are integers, not strings.</li>
+<li>If customer_id values were strings, the comparison value need to be a string, meaning '4'.</li>
+</ul>
+<h1 id="filtering-on-multiple-conditions">Filtering on Multiple Conditions</h1>
+<ul>
+<li>You can combine multiple conditions with boolean operators in the WHERE clause.</li>
+<li>Use &quot;AND,&quot; &quot;OR,&quot; or &quot;AND NOT&quot; to filter with multiple criteria.</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Tab_3.2.png" alt="Table 3.2"></p>
+<figcaption></figcaption>
+<ul>
+<li>If the WHERE clause lists two conditions with OR between them:
+<ul>
+<li>Example: &quot;WHERE customer_id = 3 OR customer_id = 4&quot; (see Table 3.3).</li>
+<li>Only one condition needs to be TRUE for a row to be returned.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Tab_3.3.png" alt="Table 3.3"></p>
+<figcaption></figcaption>
+<ul>
+<li>
+<p>With OR between conditions:</p>
+<ul>
+<li>Only one condition needs to be TRUE for the row to be returned.</li>
+<li>If all conditions are FALSE, the row is not returned.</li>
+</ul>
+</li>
+<li>
+<p>The query for filtering customer id 4 or 3 would be:</p>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    product_id,
+    quantity,
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty <span class="hljs-keyword">AS</span> price
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">WHERE</span> customer_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span> <span class="hljs-keyword">OR</span> customer_id <span class="hljs-operator">=</span> <span class="hljs-number">4</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id, vendor_id, product_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.3.png" alt="Figure 3.3"></p>
+<figcaption></figcaption>
+<ul>
+<li>
+<p>What happens if the WHERE clause condition is &quot;customer_id = 3 AND customer_id = 4&quot;?</p>
+<ul>
+<li>This means &quot;Return each row where the customer ID is 3 and 4.&quot;</li>
+<li>Since a single customer_id cannot be both 3 and 4, no rows are returned.</li>
+<li>Some people mistakenly read AND as &quot;Give me all rows with customer IDs 3 and 4.&quot;</li>
+<li>The correct sentence is &quot;Give me all rows where the customer ID is either 3 or 4,&quot; which requires OR.</li>
+</ul>
+</li>
+<li>
+<p>When using the AND operator:</p>
+<ul>
+<li>All conditions with AND must be TRUE for a row to be returned.</li>
+<li>Example: &quot;WHERE customer_id &gt; 3 AND customer_id &lt;= 5.&quot;</li>
+<li>Both conditions must be TRUE for a row to be returned.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    product_id,
+    quantity,
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty <span class="hljs-keyword">AS</span> price
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">WHERE</span> customer_id <span class="hljs-operator">&gt;</span> <span class="hljs-number">3</span> <span class="hljs-keyword">AND</span> customer_id <span class="hljs-operator">&lt;=</span> <span class="hljs-number">5</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id, vendor_id, product_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.4.png" alt="Figure 3.4"></p>
+<figcaption></figcaption>
+<ul>
+<li>You can combine multiple AND, OR, and NOT conditions.</li>
+<li>Use parentheses to control their evaluation order.</li>
+<li>Conditions inside parentheses are evaluated first.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    product_id,
+    product_name
+<span class="hljs-keyword">FROM</span> farmers_market.product
+<span class="hljs-keyword">WHERE</span>
+    product_id <span class="hljs-operator">=</span> <span class="hljs-number">10</span>
+    <span class="hljs-keyword">OR</span> (product_id <span class="hljs-operator">&gt;</span> <span class="hljs-number">3</span> 
+    <span class="hljs-keyword">AND</span> product_id <span class="hljs-operator">&lt;</span> <span class="hljs-number">8</span>)
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.5.png" alt="Figure 3.5"></p>
+<figcaption></figcaption>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    product_id,
+    product_name
+<span class="hljs-keyword">FROM</span> farmers_market.product
+<span class="hljs-keyword">WHERE</span>
+    (product_id <span class="hljs-operator">=</span> <span class="hljs-number">10</span>
+    <span class="hljs-keyword">OR</span> product_id <span class="hljs-operator">&gt;</span> <span class="hljs-number">3</span>) 
+    <span class="hljs-keyword">AND</span> product_id <span class="hljs-operator">&lt;</span> <span class="hljs-number">8</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.6.png" alt="Figure 3.6"></p>
+<figcaption></figcaption>
+<ul>
+<li>When product ID is 10:
+<ul>
+<li>The WHERE clause in the first query is evaluated as: TRUE OR (TRUE AND FALSE) = TRUE OR FALSE = TRUE.</li>
+<li>The WHERE clause in the second query is evaluated as: (TRUE OR TRUE) AND FALSE = TRUE AND FALSE = FALSE.</li>
+</ul>
+</li>
+<li>As a result:
+<ul>
+<li>The row with product_id 10 is only returned by the first query.</li>
+</ul>
+</li>
+</ul>
+<h1 id="multi-column-conditional-filtering">Multi-Column Conditional Filtering</h1>
+<ul>
+<li>So far, the examples have shown conditions referencing one field at a time.</li>
+<li>WHERE clauses can also use values from multiple columns.</li>
+<li>For example, to find purchases made by customer 4 at vendor 7, use this query.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty <span class="hljs-keyword">AS</span> price
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">WHERE</span> customer_id <span class="hljs-operator">=</span> <span class="hljs-number">4</span> <span class="hljs-keyword">AND</span> vendor_id <span class="hljs-operator">=</span> <span class="hljs-number">7</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.7.png" alt="Figure 3.7"></p>
+<figcaption></figcaption>
+<ul>
+<li>Let's try a WHERE clause with an OR condition across multiple fields.</li>
+<li>This query returns customers with the first name &quot;Carlos&quot; or the last name &quot;Diaz&quot;.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    customer_first_name, 
+    customer_last_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer 
+<span class="hljs-keyword">WHERE</span>
+    customer_first_name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Carlos&#x27;</span> 
+    <span class="hljs-keyword">OR</span> customer_last_name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Diaz&#x27;</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.8.png" alt="Figure 3.8"></p>
+<figcaption></figcaption>
+<ul>
+<li>The conditions don't have to be &quot;exact match&quot; filters using equals signs.</li>
+<li>For example, to find which booth(s) vendor 9 was assigned to on or before March 9, 2019, use this query.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_booth_assignments 
+<span class="hljs-keyword">WHERE</span>
+    vendor_id <span class="hljs-operator">=</span> <span class="hljs-number">9</span>
+    <span class="hljs-keyword">AND</span> market_date <span class="hljs-operator">&lt;=</span> <span class="hljs-string">&#x27;2019-03-09&#x27;</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.9.png" alt="Figure 3.9"></p>
+<figcaption></figcaption>
+<h1 id="more-ways-tofilter">More Ways to Filter</h1>
+<ul>
+<li>Filters in this chapter include numeric, string, and date comparisons.</li>
+<li>Check if a field value is greater than, less than, or equal to a given value.</li>
+<li>Other ways to filter rows include:
+<ul>
+<li>Checking if a field is NULL.</li>
+<li>Using wildcard comparisons.</li>
+<li>Checking if a field value is in a list.</li>
+<li>Checking if a field value is between two values.</li>
+</ul>
+</li>
+</ul>
+<h2 id="between">BETWEEN</h2>
+<ul>
+<li>In the previous query, we checked if a date was less than or equal to another date.</li>
+<li>We can use the BETWEEN keyword to see if a value is within a specified range.</li>
+<li>This query finds booth assignments for vendor 7 for any market date between March 2, 2019, and March 16, 2019, inclusive.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> 
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_booth_assignments 
+<span class="hljs-keyword">WHERE</span>
+    vendor_id <span class="hljs-operator">=</span> <span class="hljs-number">7</span>
+    <span class="hljs-keyword">AND</span> market_date <span class="hljs-keyword">BETWEEN</span> <span class="hljs-string">&#x27;2019-03-02&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-string">&#x27;2019-03-16&#x27;</span> 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.10.png" alt="Figure 3.10"></p>
+<figcaption></figcaption>
+<h2 id="in">IN</h2>
+<ul>
+<li>
+<p>To return a list of customers with selected last names:</p>
+<ul>
+<li>Use a long list of OR comparisons (first query).</li>
+<li>Alternatively, use the IN keyword with a comma-separated list of values.</li>
+<li>This returns TRUE for any row with a customer_last_name in the list.</li>
+<li>Both queries return the same results.</li>
+</ul>
+</li>
+<li>
+<p>The first query:</p>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    customer_first_name, 
+    customer_last_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer 
+<span class="hljs-keyword">WHERE</span>
+    customer_last_name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Diaz&#x27;</span>
+    <span class="hljs-keyword">OR</span> customer_last_name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Edwards&#x27;</span> 
+    <span class="hljs-keyword">OR</span> customer_last_name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Wilson&#x27;</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> customer_last_name, customer_first_name
+</code></pre>
+<ul>
+<li>The second query:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    customer_first_name, 
+    customer_last_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer 
+<span class="hljs-keyword">WHERE</span>
+    customer_last_name <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;Diaz&#x27;</span> , <span class="hljs-string">&#x27;Edwards&#x27;</span>, <span class="hljs-string">&#x27;Wilson&#x27;</span>) 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> customer_last_name, customer_first_name
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.11.png" alt="Figure 3.11"></p>
+<figcaption></figcaption>
+<ul>
+<li>Use the IN list comparison to search for a person when unsure of the spelling.</li>
+<li>For example, search for a customer first name with multiple spellings.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    customer_first_name, 
+    customer_last_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer 
+<span class="hljs-keyword">WHERE</span>
+    customer_first_name <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;Renee&#x27;</span>, <span class="hljs-string">&#x27;Rene&#x27;</span>, <span class="hljs-string">&#x27;Renée&#x27;</span>, <span class="hljs-string">&#x27;René&#x27;</span>, <span class="hljs-string">&#x27;Renne&#x27;</span>)
+</code></pre>
+<h2 id="like">LIKE</h2>
+<ul>
+<li>If you know a customer's name starts with &quot;Jer&quot; but aren't sure if it's &quot;Jerry,&quot; &quot;Jeremy,&quot; or &quot;Jeremiah&quot;:
+<ul>
+<li>Use the LIKE operator with wildcard characters.</li>
+<li>In MS SQL Server, the % wildcard represents any number of characters (including none).</li>
+<li>LIKE 'Jer%' will search for strings that start with &quot;Jer&quot; and have any (or no) characters after &quot;r&quot;.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    customer_first_name, 
+    customer_last_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer 
+<span class="hljs-keyword">WHERE</span>
+    customer_first_name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;Jer%&#x27;</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.12.png" alt="Figure 3.12"></p>
+<figcaption></figcaption>
+<h2 id="is-null">IS NULL</h2>
+<ul>
+<li>It's useful to find rows where a field is blank or NULL.</li>
+<li>In the product table, the <code>product_size</code> field is not required.</li>
+<li>Some products may have no size.</li>
+<li>Use the IS NULL condition to find all products without sizes.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> 
+<span class="hljs-keyword">FROM</span> farmers_market.product 
+<span class="hljs-keyword">WHERE</span> product_size <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.13.png" alt="Figure 3.13"></p>
+<figcaption></figcaption>
+<ul>
+<li>
+<p>&quot;Blank&quot; and NULL are not the same in database terms.</p>
+</li>
+<li>
+<p>To find all products without sizes, check for blank strings ('') or spaces in the field.</p>
+</li>
+<li>
+<p>The TRIM() function removes spaces from the beginning or end of a string.</p>
+</li>
+<li>
+<p>Use TRIM() and a blank string comparison to find rows that are blank or contain only spaces.</p>
+</li>
+<li>
+<p>Example: The &quot;Red Potatoes - Small&quot; row has a product_size with one space (' ').</p>
+</li>
+<li>
+<p>Use this query to find it:</p>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> 
+<span class="hljs-keyword">FROM</span> farmers_market.product 
+<span class="hljs-keyword">WHERE</span> <span class="hljs-built_in">TRIM</span>(product_size) <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;&#x27;</span>
+
+```<span class="hljs-keyword">sql</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> 
+<span class="hljs-keyword">FROM</span> farmers_market.product 
+<span class="hljs-keyword">WHERE</span> 
+    product_size <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span> 
+    <span class="hljs-keyword">OR</span> <span class="hljs-built_in">TRIM</span>(product_size) <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;&#x27;</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.14.png" alt="Figure 3.14"></p>
+<figcaption></figcaption>
+<h1 id="a-warning-about-null-comparisons">A Warning About Null Comparisons</h1>
+<ul>
+<li>The IS NULL operator is used instead of equals NULL.</li>
+<li>NULL is not a value but the absence of a value.</li>
+<li>Using WHERE product_size = NULL returns no rows.</li>
+<li>Nothing &quot;equals&quot; NULL, not even NULL.</li>
+<li>This is important for other types of comparisons as well.</li>
+<li>Look at the following two queries.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date,
+    transaction_time, 
+    customer_id, 
+    vendor_id, 
+    quantity
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">WHERE</span> 
+    customer_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> 
+    <span class="hljs-keyword">AND</span> vendor_id <span class="hljs-operator">=</span> <span class="hljs-number">7</span> 
+    <span class="hljs-keyword">AND</span> quantity <span class="hljs-operator">&gt;</span> <span class="hljs-number">1</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.15.png" alt="Figure 3.15"></p>
+<figcaption></figcaption>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date,
+    transaction_time, 
+    customer_id, 
+    vendor_id, 
+    quantity
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">WHERE</span> 
+    customer_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> 
+    <span class="hljs-keyword">AND</span> vendor_id <span class="hljs-operator">=</span> <span class="hljs-number">7</span> 
+    <span class="hljs-keyword">AND</span> quantity <span class="hljs-operator">&lt;=</span> <span class="hljs-number">1</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.16.png" alt="Figure 3.16"></p>
+<figcaption></figcaption>
+<ul>
+<li>You might think both queries would return all records.</li>
+<li>One looks for quantities over 1, the other for quantities less than or equal to 1.</li>
+<li>However, NULL values aren't comparable to numbers.</li>
+<li>A record with a NULL quantity is never returned.</li>
+<li>You can see this if you run the following query.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date,
+    transaction_time, 
+    customer_id, 
+    vendor_id, 
+    quantity
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">WHERE</span> 
+    customer_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> 
+    <span class="hljs-keyword">AND</span> vendor_id <span class="hljs-operator">=</span> <span class="hljs-number">7</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.17.png" alt="Figure 3.17"></p>
+<figcaption></figcaption>
+<ul>
+<li>Ideally, the database should prevent the quantity value from being NULL.</li>
+<li>But since it wasn't, a NULL value was entered.</li>
+<li>To return all records that don't have NULL values in a field:
+<ul>
+<li>Use the condition &quot;[field name] IS NOT NULL&quot; in the WHERE clause.</li>
+</ul>
+</li>
+</ul>
+<h1 id="filtering-using-subqueries">Filtering Using Subqueries</h1>
+<ul>
+<li>The IN list comparison used a hard-coded list of values earlier.</li>
+<li>What if you wanted to filter to a list of values returned by another query?</li>
+<li>You can do this in SQL using a subquery (a query inside a query).</li>
+<li>To analyze purchases made on rainy days:
+<ul>
+<li>Use the market_rain_flag in the market_date_info table.</li>
+<li>It is 0 if it didn't rain and 1 if it did.</li>
+<li>First, get a list of market dates when it rained with this query.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> market_date, market_rain_flag 
+<span class="hljs-keyword">FROM</span> farmers_market.market_date_info 
+<span class="hljs-keyword">WHERE</span> market_rain_flag <span class="hljs-operator">=</span> <span class="hljs-number">1</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.18.png" alt="Figure 3.18"></p>
+<figcaption></figcaption>
+<ul>
+<li>Use the list of dates from that query to return purchases made on those dates.</li>
+<li>When using a query in an IN comparison:
+<ul>
+<li>Only return the field you're comparing to.</li>
+<li>Do not include the market_rain_flag field in the subquery.</li>
+<li>The subquery returns the dates shown in the previous Figure.</li>
+<li>The outer query looks for customer_purchases records with a market_date in that list.</li>
+<li>The results show that all purchase records returned occurred on rainy days.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id, 
+    vendor_id, 
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty price 
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">WHERE</span> 
+    market_date <span class="hljs-keyword">IN</span>
+        (
+        <span class="hljs-keyword">SELECT</span> market_date
+        <span class="hljs-keyword">FROM</span> farmers_market.market_date_info 
+        <span class="hljs-keyword">WHERE</span> market_rain_flag <span class="hljs-operator">=</span> <span class="hljs-number">1</span>
+        )
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter3\Fig_3.19.png" alt="Figure 3.19"></p>
+<figcaption></figcaption>
+<ul>
+<li>Creating results that depend on data in more than one table can also be done using a JOIN.</li>
+<li>You will learn about JOINs in Chapter 5, &quot;SQL JOINs.&quot;</li>
+</ul>
+<h1 id="exercises">Exercises</h1>
+<ol>
+<li>Use the data in Table 3.1. Write a query to return all customer purchases of product IDs 4 and 9.</li>
+<li>Use the data in Table 3.1. Write two queries:
+<ul>
+<li>One using two conditions with an AND operator.</li>
+<li>One using the BETWEEN operator.</li>
+<li>Return all customer purchases from vendors with vendor IDs between 8 and 10 (inclusive).</li>
+</ul>
+</li>
+<li>Think of two ways to change the final query in the chapter to return purchases from days when it wasn’t raining.</li>
+</ol>
+
+            
+            
+        </body>
+        </html>

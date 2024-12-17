@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Introduction</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <hr>
+<h2 id="title-sql-chapter-6-time-1author-db">title: &quot;SQL Chapter 6 Time 1&quot;
+author: &quot;db&quot;</h2>
+<h1 id="introduction">Introduction</h1>
+<ul>
+<li><code>SQL</code> is powerful for analysis when you aggregate data.
+<ul>
+<li>Use the <code>GROUP BY</code> statement to specify the summarization level.</li>
+<li>Use aggregate functions to summarize values for each group.</li>
+</ul>
+</li>
+<li>Data analysts can build dynamic summary reports with <code>SQL</code>.
+<ul>
+<li>These reports update automatically as the database updates.</li>
+<li>Dashboards and reports in software like <code>Tableau</code> and <code>Cognos</code> often rely on <code>SQL</code> queries to get aggregated data for reporting.</li>
+<li>This will be covered in Chapter 10, “Building Analytical Reports with SQL.”</li>
+</ul>
+</li>
+<li>Data scientists can use <code>SQL</code> to summarize data for training classification models.
+<ul>
+<li>This will be explored in Chapter 12, “SQL for Machine Learning.”</li>
+</ul>
+</li>
+<li>It all starts with basic <code>SQL</code> aggregation.</li>
+</ul>
+<h1 id="group-by-syntax">GROUP BY Syntax</h1>
+<ul>
+<li>Two sections related to aggregation that we haven’t covered yet are the <code>GROUP BY</code> and <code>HAVING</code> clauses.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> [columns <span class="hljs-keyword">to</span> <span class="hljs-keyword">return</span>]
+<span class="hljs-keyword">FROM</span> [<span class="hljs-keyword">table</span>]
+<span class="hljs-keyword">WHERE</span> [conditional <span class="hljs-keyword">filter</span> statements]
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> [columns <span class="hljs-keyword">to</span> <span class="hljs-keyword">group</span> <span class="hljs-keyword">on</span>]
+<span class="hljs-keyword">HAVING</span> [conditional <span class="hljs-keyword">filter</span> statements that <span class="hljs-keyword">are</span> run after <span class="hljs-keyword">grouping</span>]
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> [columns <span class="hljs-keyword">to</span> sort <span class="hljs-keyword">on</span>]
+</code></pre>
+<ul>
+<li>
+<p>The <code>GROUP BY</code> keywords are followed by a list of column names.</p>
+<ul>
+<li>These columns indicate how to summarize the query results.</li>
+</ul>
+</li>
+<li>
+<p>Without grouping, you might write a query to get a list of customer IDs for purchases on each market date.</p>
+<ul>
+<li>This would result in one row per item each customer purchased.</li>
+<li>It would show duplicates.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+</code></pre>
+<ul>
+<li>To get one row per customer per market date, add a <code>GROUP BY</code> clause.
+<ul>
+<li>Summarize the results by <code>customer_id</code> and <code>market_date</code>.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+</code></pre>
+<ul>
+<li>You could also use <code>SELECT DISTINCT</code> to remove duplicates.
+<ul>
+<li>But here we use <code>GROUP BY</code> to add summary columns to the output.</li>
+</ul>
+</li>
+</ul>
+<h1 id="displaying-group-summaries">Displaying Group Summaries</h1>
+<ul>
+<li>Now that you have grouped the data, you can add aggregate functions.
+<ul>
+<li>Use functions like <code>SUM</code> and <code>COUNT</code> to summarize the <code>customer_purchases</code> data per group.</li>
+</ul>
+</li>
+<li>This query uses the <code>COUNT()</code> function to count the rows in the <code>customer_purchases</code> table per market date per customer.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id,
+    <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">AS</span> items_purchased
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.1.png" alt="Figure 6.1"></p>
+<figcaption></figcaption>
+<ul>
+<li>Remember, the granularity of the <code>customer_purchases</code> table affects the <code>items_purchased</code> column.
+<ul>
+<li>If a customer buys three identical items at once, it shows up as 1 in the <code>items_purchased</code> column.</li>
+<li>This is because the purchase is recorded in one row with a quantity of 3.</li>
+<li>See Figures 1.7 and 2.7 in Chapters 1 and 2 for reference.</li>
+</ul>
+</li>
+<li>If the customer buys three tomatoes, walks away, and then buys another three, it would be counted as two by the previous query.
+<ul>
+<li>Each purchase generates a new row.</li>
+</ul>
+</li>
+<li>To count all six tomatoes, sum the quantity column using the following query.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id,
+    <span class="hljs-built_in">SUM</span>(quantity) <span class="hljs-keyword">AS</span> items_purchased
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.2.png" alt="Figure 6.2"></p>
+<figcaption></figcaption>
+<ul>
+<li>The <code>items_purchased</code> column is no longer an integer.
+<ul>
+<li>Some quantities are bulk product weights.</li>
+<li>Reporting purchases this way may not make sense.</li>
+</ul>
+</li>
+<li>Instead, you want to know how many different kinds of items each customer bought.
+<ul>
+<li>Count &quot;1&quot; if they bought tomatoes, no matter how many.</li>
+<li>Add to that count if they bought other items like lettuce.</li>
+</ul>
+</li>
+<li>This type of modification is common when designing reports.
+<ul>
+<li>Understand the granularity and structure of the table to ensure accuracy.</li>
+<li>Write the query without aggregation first to see the values before grouping the results.</li>
+</ul>
+</li>
+<li>Now, you want a <code>DISTINCT</code> count of <code>product_id</code>.
+<ul>
+<li>Instead of counting rows with <code>COUNT(*)</code> or adding quantities with <code>SUM(quantity)</code>, count unique <code>product_id</code> values.</li>
+<li>This shows how many different kinds of products each customer bought on each market date.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id, 
+    <span class="hljs-built_in">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> product_id) <span class="hljs-keyword">AS</span> different_products_purchased
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases c 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.3.png" alt="Figure 6.3"></p>
+<figcaption></figcaption>
+<ul>
+<li>We can also combine these summaries into a single query.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id, 
+    <span class="hljs-built_in">SUM</span>(quantity) <span class="hljs-keyword">AS</span> items_purchased,
+    <span class="hljs-built_in">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> product_id) <span class="hljs-keyword">AS</span> different_products_purchased
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.4.png" alt="Figure 6.4"></p>
+<figcaption></figcaption>
+<ul>
+<li>You can include multiple aggregate functions in a single query.
+<ul>
+<li>They will all be applied at the same level of grouping.</li>
+<li>In this case, summarizing per market date per <code>customer_id</code>.</li>
+<li>Use column name aliases to describe the different summary values.</li>
+</ul>
+</li>
+<li>If you want to sum quantities but don't like how the <code>items_purchased</code> column includes both discrete items and bulk weights, we have a solution.
+<ul>
+<li>Bulk weights may be in different units like pounds and ounces.</li>
+<li>We will show a solution later in the chapter in the “CASE Statements Inside Aggregate Functions” section.</li>
+</ul>
+</li>
+</ul>
+<h1 id="performing-calculations-inside-aggregate-functions">Performing Calculations Inside Aggregate Functions</h1>
+<ul>
+<li>You can include mathematical operations inside aggregate functions.
+<ul>
+<li>These are calculated at the row level before summarization.</li>
+</ul>
+</li>
+<li>In Chapter 3, “The <code>WHERE</code> Clause,” you learned how to display a list of customer purchases at the farmer’s market.
+<ul>
+<li>Use a <code>WHERE</code> clause to filter for a specific customer.</li>
+<li>The customer with ID 3 has purchased the items shown in Figure 6.5.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    customer_id, 
+    vendor_id, 
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty <span class="hljs-keyword">AS</span> price 
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">WHERE</span> 
+    customer_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, vendor_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.5.png" alt="Figure 6.5"></p>
+<figcaption></figcaption>
+<ul>
+<li>Let's say we want to know how much money this customer spent in total on each <code>market_date</code>.
+<ul>
+<li>This is regardless of item or vendor.</li>
+<li>We can <code>GROUP BY</code> <code>market_date</code>.</li>
+<li>Use the <code>SUM</code> aggregate function on the price calculation to add up the prices of the items purchased.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    market_date,
+    <span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty) <span class="hljs-keyword">AS</span> total_spent
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases 
+<span class="hljs-keyword">WHERE</span> 
+    customer_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span> 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.6.png" alt="Figure 6.6"></p>
+<figcaption></figcaption>
+<ul>
+<li>Notice that <code>vendor_id</code> has been removed from the columns to display and from the <code>ORDER BY</code> clause.
+<ul>
+<li>This is because we want one row per customer per date.</li>
+<li>Including <code>vendor_id</code> would prevent this aggregation.</li>
+<li>The customer can purchase from multiple vendors on a single date.</li>
+</ul>
+</li>
+<li>Add <code>customer_id</code> to the <code>GROUP BY</code> list.
+<ul>
+<li>This ensures the query works without error even if not filtered to a single customer.</li>
+</ul>
+</li>
+<li>To find out how much this customer spent at each vendor, regardless of date:
+<ul>
+<li>Group by <code>customer_id</code> and <code>vendor_id</code>.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    vendor_id,
+    <span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty) <span class="hljs-keyword">AS</span> total_spent 
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">WHERE</span> 
+    customer_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> customer_id, vendor_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> customer_id, vendor_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.7.png" alt="Figure 6.7"></p>
+<figcaption></figcaption>
+<ul>
+<li>We can remove the <code>customer_id</code> filter by removing the entire <code>WHERE</code> clause.
+<ul>
+<li><code>GROUP BY</code> <code>customer_id</code> to get a list of every customer and how much they have ever spent at the farmer’s market.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    customer_id, 
+    vendor_id,
+    <span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty) <span class="hljs-keyword">AS</span> total_spent
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> customer_id, vendor_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> customer_id, vendor_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.8.png" alt="Figure 6.8"></p>
+<figcaption></figcaption>
+<ul>
+<li>So far, we have been doing all this aggregation on a single table.
+<ul>
+<li>It can also be done on joined tables.</li>
+<li>Join the tables without the aggregate functions first.</li>
+<li>Ensure the data is at the expected level of granularity and not generating duplicates before adding the <code>GROUP BY</code>.</li>
+</ul>
+</li>
+<li>Let's say we want to bring in some customer details, such as first and last name, and the vendor name for the query grouped by <code>customer_id</code> and <code>vendor_id</code>.
+<ul>
+<li>First, join the three tables.</li>
+<li>Select columns from all of them.</li>
+<li>Inspect the output before grouping.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    c.customer_first_name,
+    c.customer_last_name,
+    cp.customer_id,
+    v.vendor_name,
+    cp.vendor_id,
+    cp.quantity <span class="hljs-operator">*</span> cp.cost_to_customer_per_qty <span class="hljs-keyword">AS</span> price
+<span class="hljs-keyword">FROM</span> farmers_market.customer c
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> farmers_market.customer_purchases cp
+        <span class="hljs-keyword">ON</span> c.customer_id <span class="hljs-operator">=</span> cp.customer_id 
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> farmers_market.vendor v
+        <span class="hljs-keyword">ON</span> cp.vendor_id <span class="hljs-operator">=</span> v.vendor_id 
+<span class="hljs-keyword">WHERE</span> 
+    cp.customer_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> cp.customer_id, cp.vendor_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.9.png" alt="Figure 6.9"></p>
+<figcaption></figcaption>
+<ul>
+<li>To summarize at the level of one row per customer per vendor:
+<ul>
+<li>Group by all the fields from the customer and vendor tables that don't include aggregate functions.</li>
+<li>The following query shows the fields used for grouping.</li>
+<li>The output is shown in Figure 6.10.</li>
+<li>The <code>ROUND()</code> function is used to format the <code>total_spent</code> calculation nicely in dollar form.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    c.customer_first_name,
+    c.customer_last_name,
+    cp.customer_id,
+    v.vendor_name,
+    cp.vendor_id,
+    ROUND(<span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty), <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> total_spent
+<span class="hljs-keyword">FROM</span> farmers_market.customer c
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> farmers_market.customer_purchases cp
+        <span class="hljs-keyword">ON</span> c.customer_id <span class="hljs-operator">=</span> cp.customer_id 
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> farmers_market.vendor v
+        <span class="hljs-keyword">ON</span> cp.vendor_id <span class="hljs-operator">=</span> v.vendor_id 
+<span class="hljs-keyword">WHERE</span> 
+    cp.customer_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span> 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> 
+    c.customer_first_name, 
+    c.customer_last_name, 
+    cp.customer_id, 
+    v.vendor_name, 
+    cp.vendor_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> cp.customer_id, cp.vendor_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.10.png" alt="Figure 6.10"></p>
+<figcaption></figcaption>
+<ul>
+<li>We can also keep the same level of aggregation and filter to a single vendor instead of a single customer.
+<ul>
+<li>This gives a list of customers per vendor.</li>
+<li>The only change needed is in the <code>WHERE</code> clause condition.</li>
+<li>The grouping level and output fields remain the same.</li>
+</ul>
+</li>
+<li>In Figure 6.11:
+<ul>
+<li>The <code>customer_id</code> column now has values other than 3.</li>
+<li>The <code>vendor_id</code> column is limited to vendor 9.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    c.customer_first_name,
+    c.customer_last_name,
+    cp.customer_id,
+    v.vendor_name,
+    cp.vendor_id,
+    ROUND(<span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty), <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> total_spent
+<span class="hljs-keyword">FROM</span> farmers_market.customer 
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> farmers_market.customer_purchases cp
+        <span class="hljs-keyword">ON</span> c.customer_id <span class="hljs-operator">=</span> cp.customer_id 
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> farmers_market.vendor v
+        <span class="hljs-keyword">ON</span> cp.vendor_id <span class="hljs-operator">=</span> v.vendor_id 
+<span class="hljs-keyword">WHERE</span> 
+    cp.vendor_id <span class="hljs-operator">=</span> <span class="hljs-number">9</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>
+    c.customer_first_name, 
+    c.customer_last_name, 
+    cp.customer_id, 
+    v.vendor_name, 
+    cp.vendor_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> cp.customer_id, cp.vendor_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.11.png" alt="Figure 6.11"></p>
+<figcaption></figcaption>
+<ul>
+<li>Or, we could remove the <code>WHERE</code> clause altogether.
+<ul>
+<li>This would give one row for every customer-vendor pair in the database.</li>
+<li>Useful for a reporting system that allows front-end filtering, such as <code>Tableau</code>.</li>
+<li>The query can provide a list of any customer that has shopped at any vendor and the sum of how much they have spent.</li>
+<li>The reporting tool can then allow the user to choose any customer or vendor to narrow down the results dynamically.</li>
+</ul>
+</li>
+<li>You can now see how all the basic <code>SQL</code> components you have learned in previous chapters come together to build analytical reports!</li>
+</ul>
+<h1 id="min-and-max">MIN and MAX</h1>
+<ul>
+<li>To find the most and least expensive items per product category, use the <code>vendor_inventory</code> table.
+<ul>
+<li>Vendors set their own prices and can adjust them per customer.</li>
+<li>The <code>customer_purchases</code> table has a <code>cost_to_customer_per_qty</code> field.</li>
+<li>This allows the original price to be overridden at the time of purchase if needed.</li>
+<li>The <code>vendor_inventory</code> table includes the original prices set by vendors for each item on each market date.</li>
+</ul>
+</li>
+<li>First, let's view all fields in the <code>vendor_inventory</code> table with the following query.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> original_price
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.12.png" alt="Figure 6.12"></p>
+<figcaption></figcaption>
+<ul>
+<li>We can find the least and most expensive item prices in the entire table.
+<ul>
+<li>Use the <code>MIN()</code> and <code>MAX()</code> functions without grouping in <code>MySQL</code>.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    <span class="hljs-built_in">MIN</span>(original_price) <span class="hljs-keyword">AS</span> minimum_price,
+    <span class="hljs-built_in">MAX</span>(original_price) <span class="hljs-keyword">AS</span> maximum_price 
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> original_price
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.13.png" alt="Figure 6.13"></p>
+<figcaption></figcaption>
+<ul>
+<li>To get the lowest and highest prices within each product category:
+<ul>
+<li>Group by <code>product_category_id</code> (and <code>product_category_name</code> if we want to display it).</li>
+<li>This way, the summary values will be calculated per group.</li>
+<li>Table aliases are used to distinguish fields from multiple tables.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    pc.product_category_name,
+    p.product_category_id, 
+    <span class="hljs-built_in">MIN</span>(vi.original_price) <span class="hljs-keyword">AS</span> minimum_price, 
+    <span class="hljs-built_in">MAX</span>(vi.original_price) <span class="hljs-keyword">AS</span> maximum_price
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory <span class="hljs-keyword">AS</span> vi 
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> farmers_market.product <span class="hljs-keyword">AS</span> p
+        <span class="hljs-keyword">ON</span> vi.product_id <span class="hljs-operator">=</span> p.product_id
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> farmers_market.product_category <span class="hljs-keyword">AS</span> pc
+        <span class="hljs-keyword">ON</span> p.product_category_id <span class="hljs-operator">=</span> pc.product_category_id 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> pc.product_category_name, p.product_category_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.14.png" alt="Figure 6.14"></p>
+<figcaption></figcaption>
+<ul>
+<li>If we add columns for <code>MIN(product_name)</code> and <code>MAX(product_name)</code>, we won't get the product names associated with the lowest and highest prices.
+<ul>
+<li>Instead, we would get the first and last product names sorted alphabetically.</li>
+</ul>
+</li>
+<li>To get the products associated with these min and max prices per category, we would use window functions.
+<ul>
+<li>This will be covered in the next chapter.</li>
+</ul>
+</li>
+</ul>
+<h1 id="count-and-count-distinct">COUNT and COUNT DISTINCT</h1>
+<ul>
+<li>Suppose we wanted to count how many products were for sale on each market date or how many different products each vendor offered.
+<ul>
+<li>We can determine these values using <code>COUNT</code> and <code>COUNT DISTINCT</code>.</li>
+</ul>
+</li>
+<li><code>COUNT</code> will count the rows within a group when used with <code>GROUP BY</code>.
+<ul>
+<li><code>COUNT DISTINCT</code> will count the unique values in the specified field within the group.</li>
+</ul>
+</li>
+<li>To determine how many products are offered for sale each market date:
+<ul>
+<li>Count the rows in the <code>vendor_inventory</code> table, grouped by date.</li>
+<li>This counts the number of products available, as there is a row in this table for each product for each vendor for each market date.</li>
+</ul>
+</li>
+<li>The values shown in the screenshots are small because the database has only a few sample rows per table.
+<ul>
+<li>But you can see in Figure 6.15 that the result is a count for each <code>market_date</code>.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    market_date, 
+    <span class="hljs-built_in">COUNT</span>(product_id) <span class="hljs-keyword">AS</span> product_count 
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.15.png" alt="Figure 6.15"></p>
+<figcaption></figcaption>
+<ul>
+<li>If we wanted to know how many different products with unique <code>product_id</code>s each vendor brought to market during a date range:
+<ul>
+<li>Use <code>COUNT DISTINCT</code> on the <code>product_id</code> field.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    vendor_id, 
+    <span class="hljs-built_in">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> product_id) <span class="hljs-keyword">AS</span> different_products_offered 
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory
+<span class="hljs-keyword">WHERE</span> market_date <span class="hljs-keyword">BETWEEN</span> <span class="hljs-string">&#x27;2019-03-02&#x27;</span> <span class="hljs-keyword">AND</span> <span class="hljs-string">&#x27;2019-03-16&#x27;</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> vendor_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> vendor_id
+</code></pre>
+<ul>
+<li>Note that the <code>DISTINCT</code> goes inside the parentheses for the <code>COUNT()</code> aggregate function.</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.16.png" alt="Figure 6.16"></p>
+<figcaption></figcaption>
+<h1 id="average">Average</h1>
+<ul>
+<li>What if we also want the average original price of a product per vendor, in addition to the count of different products per vendor?
+<ul>
+<li>We can add a line to the previous query and use the <code>AVG()</code> function.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    vendor_id, 
+    <span class="hljs-built_in">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> product_id) <span class="hljs-keyword">AS</span> different_products_offered, 
+    <span class="hljs-built_in">AVG</span>(original_price) <span class="hljs-keyword">AS</span> average_product_price
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory
+<span class="hljs-keyword">WHERE</span> market_date <span class="hljs-keyword">BETWEEN</span> <span class="hljs-string">&#x27;2019-03-02&#x27;</span> <span class="hljs-keyword">AND</span> <span class="hljs-string">&#x27;2019-03-16&#x27;</span> 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> vendor_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> vendor_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.17.png" alt="Figure 6.17"></p>
+<figcaption></figcaption>
+<ul>
+<li>However, we need to consider what we’re actually averaging.
+<ul>
+<li>Is it fair to call it “average product price” when the table has one row per type of product?</li>
+<li>If a vendor brought 100 tomatoes to market, they would all be in one row of the <code>vendor_inventory</code> table.</li>
+<li>So the price of a tomato would only be included in the average once.</li>
+<li>If the same vendor also sold bouquets of flowers for $20, that price would only be included once.</li>
+<li>Calculating the “average product price” this way would just give the average of one tomato and one bouquet.</li>
+</ul>
+</li>
+<li>To get a true average price of items in each vendor’s inventory between the specified dates:
+<ul>
+<li>Multiply the quantity of each type of item by its price (a calculation per row).</li>
+<li>Sum that up and divide by the total quantity of items (a calculation per vendor).</li>
+<li>Let’s try a calculation that includes these two summary values.</li>
+<li>Use the <code>ROUND()</code> function to format the output in dollars.</li>
+<li>See Figure 6.18 for reference.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    vendor_id, 
+    <span class="hljs-built_in">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> product_id) <span class="hljs-keyword">AS</span> different_products_offered, 
+    <span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> original_price) <span class="hljs-keyword">AS</span> value_of_inventory, 
+    <span class="hljs-built_in">SUM</span>(quantity) <span class="hljs-keyword">AS</span> inventory_item_count,
+    ROUND(<span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> original_price) <span class="hljs-operator">/</span> <span class="hljs-built_in">SUM</span>(quantity), <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> 
+average_item_price
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory
+<span class="hljs-keyword">WHERE</span> market_date <span class="hljs-keyword">BETWEEN</span> <span class="hljs-string">&#x27;2019-03-02&#x27;</span> <span class="hljs-keyword">AND</span> <span class="hljs-string">&#x27;2019-03-16&#x27;</span> 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> vendor_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> vendor_id
+</code></pre>
+<ul>
+<li>The multiplication of <code>quantity * original_price</code> inside the aggregate function is done per row.
+<ul>
+<li>Then, the aggregate <code>SUM</code>s are calculated.</li>
+<li>Finally, the division of one <code>SUM</code> by the other to determine the “average item price” is performed.</li>
+<li>This means we’re doing mathematical operations both before and after the <code>GROUP BY</code> summarization occurs.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.18.png" alt="Figure 6.18"></p>
+<figcaption></figcaption>
+<h1 id="filtering-with-having">Filtering with HAVING</h1>
+<ul>
+<li>Filtering can also be done in the query after summarization occurs.
+<ul>
+<li>In previous chapters and in the following query, we filtered rows using the <code>WHERE</code> clause.</li>
+<li>Here, we’re filtering to a date range in the <code>WHERE</code> clause prior to grouping.</li>
+</ul>
+</li>
+<li>If you want to filter values after the aggregate functions are applied:
+<ul>
+<li>Add a <code>HAVING</code> clause to the query.</li>
+<li>This filters the groups based on the summary values.</li>
+</ul>
+</li>
+<li>Modifying the previous query:
+<ul>
+<li>Let’s filter to vendors who brought at least 100 items to the farmer’s market over the specified time period.</li>
+<li>You can see the <code>HAVING</code> clause usage in the following code.</li>
+<li>The results are shown in Figure 6.19:</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    vendor_id, 
+    <span class="hljs-built_in">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> product_id) <span class="hljs-keyword">AS</span> different_products_offered, 
+    <span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> original_price) <span class="hljs-keyword">AS</span> value_of_inventory,
+    <span class="hljs-built_in">SUM</span>(quantity) <span class="hljs-keyword">AS</span> inventory_item_count,
+    <span class="hljs-built_in">SUM</span>(quantity <span class="hljs-operator">*</span> original_price) <span class="hljs-operator">/</span> <span class="hljs-built_in">SUM</span>(quantity) <span class="hljs-keyword">AS</span> average_item_price
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_inventory
+<span class="hljs-keyword">WHERE</span> market_date <span class="hljs-keyword">BETWEEN</span> <span class="hljs-string">&#x27;2019-03-02&#x27;</span> <span class="hljs-keyword">AND</span> <span class="hljs-string">&#x27;2019-03-16&#x27;</span> 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> vendor_id
+<span class="hljs-keyword">HAVING</span> inventory_item_count <span class="hljs-operator">&gt;=</span> <span class="hljs-number">100</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> vendor_id
+</code></pre>
+<ul>
+<li>If you <code>GROUP BY</code> all the fields that should be distinct in your resulting dataset:
+<ul>
+<li>Then add a <code>HAVING</code> clause that filters to aggregated rows with <code>COUNT(*) &gt; 1</code>.</li>
+<li>Any results returned indicate that there is more than one row with your “unique” combination of values.</li>
+<li>This highlights the existence of unwanted duplicates in your database or query results!</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.19.png" alt="Figure 6.19"></p>
+<figcaption></figcaption>
+<h1 id="case-statements-inside-aggregate-functions">CASE Statements Inside Aggregate Functions</h1>
+<ul>
+<li>Earlier in this chapter, in the query that generated the output in Figure 6.4, we added up the quantity value in the <code>customer_purchases</code> table.
+<ul>
+<li>This included discrete items sold individually as well as bulk items sold by ounce or pound.</li>
+<li>It was awkward to add those quantities together.</li>
+</ul>
+</li>
+<li>In Chapter 4, “Conditionals / CASE Statements,” you learned about conditional <code>CASE</code> statements.
+<ul>
+<li>Here, we’ll use a <code>CASE</code> statement to specify which type of item quantities to add together using each <code>SUM</code> aggregate function.</li>
+</ul>
+</li>
+<li>First, we’ll need to <code>JOIN</code> the <code>customer_purchases</code> table to the <code>product</code> table to pull in the <code>product_qty_type</code> column.
+<ul>
+<li>This column currently only contains the values “unit” and “lbs.”</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    cp.market_date,
+    cp.vendor_id, 
+    cp.customer_id, 
+    cp.product_id, 
+    cp.quantity, 
+    p.product_name, 
+    p.product_size, 
+    p.product_qty_type
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases <span class="hljs-keyword">AS</span> cp
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> farmers_market.product <span class="hljs-keyword">AS</span> p
+        <span class="hljs-keyword">ON</span> cp.product_id <span class="hljs-operator">=</span> p.product_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.20.png" alt="Figure 6.20"></p>
+<figcaption></figcaption>
+<ul>
+<li>To create one column that only adds up quantities of products sold by unit:
+<ul>
+<li>Another column that adds up quantities of products sold by the pound.</li>
+<li>A third for any products that may be entered in the future that are sold by other units (like bulk ounces).</li>
+<li>We’ll put <code>CASE</code> statements inside the <code>SUM</code> functions to indicate which values to add up in each summary column.</li>
+</ul>
+</li>
+<li>First, we’ll review the results with the <code>CASE</code> statements included before grouping or using aggregate functions.
+<ul>
+<li>Notice in Figure 6.21 that the <code>CASE</code> statements have separated the quantity values into three different columns, by <code>product_qty_type</code>.</li>
+<li>These are the values we’ll be adding up per group in the next step:</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    cp.market_date,
+    cp.vendor_id,
+    cp.customer_id,
+    cp.product_id,
+    <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> product_qty_type <span class="hljs-operator">=</span> &quot;unit&quot; <span class="hljs-keyword">THEN</span> quantity <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> <span class="hljs-keyword">AS</span> 
+quantity_units,
+    <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> product_qty_type <span class="hljs-operator">=</span> &quot;lbs&quot; <span class="hljs-keyword">THEN</span> quantity <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> <span class="hljs-keyword">AS</span> 
+quantity_lbs,
+    <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> product_qty_type <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> (&quot;unit&quot;,&quot;lbs&quot;) <span class="hljs-keyword">THEN</span> quantity <span class="hljs-keyword">ELSE</span> 
+<span class="hljs-number">0</span> <span class="hljs-keyword">END</span> <span class="hljs-keyword">AS</span> quantity_other,
+    p.product_qty_type
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases cp
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> farmers_market.product p 
+        <span class="hljs-keyword">ON</span> cp.product_id <span class="hljs-operator">=</span> p.product_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.21.png" alt="Figure 6.21"></p>
+<figcaption></figcaption>
+<ul>
+<li>Now we can add the <code>SUM</code> functions around each <code>CASE</code> statement.
+<ul>
+<li>This will add up these values per market date per customer, as defined in the <code>GROUP BY</code> clause.</li>
+<li>The prior screenshot was just a subset of the full results, so there may be values added into the rows in Figure 6.22 that are not visible in Figure 6.21.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    cp.market_date,
+    cp.customer_id,
+    <span class="hljs-built_in">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> product_qty_type <span class="hljs-operator">=</span> &quot;unit&quot; <span class="hljs-keyword">THEN</span> quantity <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">AS</span> 
+qty_units_purchased,
+    <span class="hljs-built_in">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> product_qty_type <span class="hljs-operator">=</span> &quot;lbs&quot; <span class="hljs-keyword">THEN</span> quantity <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">AS</span> 
+qty_lbs_purchased,
+    <span class="hljs-built_in">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> product_qty_type <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> (&quot;unit&quot;,&quot;lbs&quot;) <span class="hljs-keyword">THEN</span> quantity 
+<span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">AS</span> qty_other_purchased
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases cp
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> farmers_market.product p 
+        <span class="hljs-keyword">ON</span> cp.product_id <span class="hljs-operator">=</span> p.product_id
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> market_date, customer_id 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, customer_id
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter6\Fig_6.22.png" alt="Figure 6.22"></p>
+<figcaption></figcaption>
+<ul>
+<li>Now you have seen examples of how to use <code>COUNT</code>, <code>COUNT DISTINCT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, and <code>MAX</code> aggregate SQL functions.
+<ul>
+<li>You have also seen <code>CASE</code> statements and calculations inside the functions.</li>
+<li>And calculations performed with the summarized values.</li>
+</ul>
+</li>
+</ul>
+<h1 id="exercises-using-theincluded-database">Exercises Using the Included Database</h1>
+<ol>
+<li>Write a query that determines how many times each vendor has rented a booth at the farmer’s market.</li>
+</ol>
+<ul>
+<li>Count the vendor booth assignments per <code>vendor_id</code>.</li>
+</ul>
+<ol start="2">
+<li>In Chapter 5, “SQL Joins,” Exercise 3, we asked, “When is each type of fresh fruit or vegetable in season, locally?”</li>
+</ol>
+<ul>
+<li>Write a query that displays the product category name, product name, earliest date available, and latest date available for every product in the “Fresh Fruits &amp; Vegetables” product category.</li>
+</ul>
+<ol start="3">
+<li>The Farmer’s Market Customer Appreciation Committee wants to give a bumper sticker to everyone who has ever spent more than $50 at the market.</li>
+</ol>
+<ul>
+<li>Write a query that generates a list of customers for them to give stickers to.</li>
+<li>Sort by last name, then first name.</li>
+<li>(Hint: This query requires you to join two tables, use an aggregate function, and use the <code>HAVING</code> keyword.)</li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

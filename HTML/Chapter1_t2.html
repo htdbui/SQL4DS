@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Data Sources</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <hr>
+<h2 id="title-sql-chapter-1-time-2author-db">title: &quot;SQL Chapter 1 Time 2&quot;
+author: &quot;db&quot;</h2>
+<h1 id="data-sources">Data Sources</h1>
+<ul>
+<li>Two types of data: structured and unstructured.
+<ul>
+<li>Unstructured: text documents or images as individual files.</li>
+<li>Structured: tabular format like spreadsheets or database tables.</li>
+<li>Other types: CSV, JSON, XML, Graph databases, key-value stores.</li>
+</ul>
+</li>
+<li>RDBMS examples: Oracle, MySQL, MS SQL Server, PostgreSQL, Amazon Redshift, IBM DB2, MS Access, SQLite, Snowflake.
+<ul>
+<li>Syntax differs slightly.</li>
+<li>SQL concepts are consistent.</li>
+</ul>
+</li>
+</ul>
+<h1 id="relational-databases">Relational Databases</h1>
+<ul>
+<li>A <code>database table</code> is like a spreadsheet.
+<ul>
+<li>It has row identifiers.</li>
+<li>It has named column headers.</li>
+</ul>
+</li>
+<li>An <code>entity</code> is an object or concept the table represents.
+<ul>
+<li>For example, in a table of <code>Books</code>, the entity is <code>Books</code>.</li>
+<li>The table contains information like <code>ISBN number</code>, <code>title</code>, and <code>author</code>.</li>
+<li>Some people use the terms <code>entity</code> and <code>table</code> interchangeably.</li>
+</ul>
+</li>
+<li>A <code>row</code> is also called a <code>record</code> or <code>tuple</code>.</li>
+<li>A <code>column header</code> is also called a <code>field</code> or <code>attribute</code>.</li>
+<li>For example, in a table of <code>Books</code>:
+<ul>
+<li>The value in the <code>Author</code> field for the book &quot;SQL for Data Scientists&quot; is <code>Renée M. P. Teate</code>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter1\Fig_1.1.png" alt="Figure 1.1"></p>
+<figcaption></figcaption>
+<ul>
+<li>A <code>database</code> is a collection of related <code>tables</code>.
+<ul>
+<li>A <code>database schema</code> stores information about the <code>tables</code> and their relationships.</li>
+</ul>
+</li>
+<li>Example: Doctor's office <code>database</code>:
+<ul>
+<li>One <code>table</code> has patient information: <code>name</code>, <code>birthdate</code>, <code>phone number</code>.</li>
+<li>Another <code>table</code> has appointment information: <code>patient name</code>, <code>appointment time</code>, <code>doctor name</code>.</li>
+<li>The connection between these <code>tables</code> could be the <code>patient's name</code>.</li>
+<li>Usually, a unique identifier is used since two people can have the same <code>name</code>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter1\Fig_1.2.png" alt="Figure 1.2"></p>
+<figcaption></figcaption>
+<ul>
+<li>The relationship between these two <code>tables</code> is called a <code>one-to-many relationship</code>.
+<ul>
+<li>Each <code>patient</code> appears once in the <code>patient table</code>.</li>
+<li>Each <code>patient</code> can appear many times in the <code>appointment table</code>.</li>
+<li>These relationships are shown in an <code>entity-relationship diagram (ERD)</code>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter1\Fig_1.3.png" alt="Figure 1.3"></p>
+<figcaption></figcaption>
+<ul>
+<li>An <code>infinity symbol</code>, <code>N</code>, or <code>crow's feet</code> shows the &quot;many&quot; side of a <code>one-to-many relationship</code>.</li>
+<li>The <code>primary key</code> uniquely identifies a row.
+<ul>
+<li>The <code>primary key</code> cannot be <code>NULL</code>.</li>
+<li><code>NULL</code> means no value, different from a blank space.</li>
+<li>The <code>primary key</code> can be a unique value like a <code>Student ID</code> or generated by the database.</li>
+<li>The <code>primary key</code> is referenced in another table called a <code>foreign key</code>.</li>
+</ul>
+</li>
+<li>Example: Doctor's office <code>database</code>:
+<ul>
+<li>Each patient record in the <code>Patients</code> table has a unique <code>primary key</code>.</li>
+<li>Each appointment record in the <code>Appointments</code> table has a unique <code>primary key</code>.</li>
+<li>The <code>Appointments</code> table uses the <code>Patient ID</code> to link appointments to patients.</li>
+<li>The patient's name is not stored in the <code>Appointments</code> table.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter1\Fig_1.4.png" alt="Figure 1.4"></p>
+<figcaption></figcaption>
+<ul>
+<li>Another type of relationship in <code>RDBMSs</code> is <code>many-to-many</code>.
+<ul>
+<li>It connects entities where records on each side can link to multiple records on the other side.</li>
+<li>Example: <code>books</code> and <code>authors</code> have a <code>many-to-many relationship</code>.
+<ul>
+<li>Each <code>author</code> can write multiple <code>books</code>.</li>
+<li>Each <code>book</code> can have multiple <code>authors</code>.</li>
+</ul>
+</li>
+<li>A <code>junction table</code> is needed to capture the pairs of related rows.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter1\Fig_1.5.png" alt="Figure 1.5"></p>
+<figcaption></figcaption>
+<ul>
+<li>
+<p>In Figure 1.5:</p>
+<ul>
+<li><code>ISBN</code> is the <code>primary key</code> in the <code>Books</code> table.</li>
+<li><code>Author ID</code> is the <code>primary key</code> in the <code>Authors</code> table.</li>
+<li>Both are <code>foreign keys</code> in the <code>Books-Authors Junction</code> table.</li>
+<li>Each pairing of <code>ISBN</code> and <code>Author ID</code> is unique.</li>
+<li>The pair is a multi-column <code>primary key</code> in the <code>Books-Authors Junction</code> table.</li>
+<li>This setup avoids multiple rows per book or author in the <code>Books</code> table.</li>
+<li>It reduces redundant data and clarifies relationships.</li>
+</ul>
+</li>
+<li>
+<p><code>Database normalization</code> means not storing redundant data.</p>
+<ul>
+<li>In the book database, each author's name is stored once.</li>
+<li>In the doctor's office database, a patient's phone number is stored once in the patient directory.</li>
+<li>Normalization reduces storage space and simplifies updates.</li>
+<li>Research <code>relational database design</code> for more information.</li>
+</ul>
+</li>
+</ul>
+<h1 id="dimensional-data-warehouses">Dimensional Data Warehouses</h1>
+<ul>
+<li><code>Data warehouses</code> contain data from multiple sources.
+<ul>
+<li>They can be designed in a normalized relational database form or other designs.</li>
+<li>They may have <code>raw data</code> and <code>summary</code> tables.</li>
+<li><code>Summary</code> tables are transformed versions of <code>raw data</code>.</li>
+<li><code>Data warehouses</code> can store historical data logs, real-time updated tables, or data snapshots.</li>
+</ul>
+</li>
+<li><code>Dimensional modeling</code> techniques are often used in <code>data warehouses</code>.
+<ul>
+<li>One common design is the <code>star schema</code>.</li>
+<li>It divides data into <code>facts</code> and <code>dimensions</code>.</li>
+</ul>
+</li>
+<li>A <code>fact</code> table contains the <code>metadata</code> of an entity and numeric measures to track.
+<ul>
+<li>Example: A purchase record has a timestamp, store number, order number, customer number, and amount paid.</li>
+</ul>
+</li>
+<li>A <code>dimension</code> is a property of an entity to group <code>fact</code> records.
+<ul>
+<li>Example: The store in a purchase record is a <code>dimension</code>.</li>
+<li>The store's <code>dimension table</code> contains information like store name.</li>
+</ul>
+</li>
+<li>Example: Doctor's office database in a <code>star schema</code>.
+<ul>
+<li><code>Appointments fact table</code> captures each appointment's details.</li>
+<li><code>Date dimension</code> and <code>time dimension</code> store properties of appointment dates and times.</li>
+</ul>
+</li>
+<li>This design allows for easy grouping and summarizing of data.
+<ul>
+<li>Example: Counting appointments per time period or finding peak appointment booking times.</li>
+</ul>
+</li>
+<li>Figure 1.6 shows a <code>dimensional data warehouse</code> design.
+<ul>
+<li>The design resembles a star, hence the name <code>star schema</code>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter1\Fig_1.6.png" alt="Figure 1.6"></p>
+<figcaption></figcaption>
+<ul>
+<li>There might be an <code>appointment history log</code> in the <code>data warehouse</code>.
+<ul>
+<li>It records each time an appointment was changed.</li>
+<li>You can see when the appointment is supposed to take place.</li>
+<li>You can see how many times it was modified.</li>
+<li>You can see if it was initially assigned to another doctor.</li>
+</ul>
+</li>
+<li>A <code>dimensional model</code> stores more information than a <code>normalized relational database</code>.
+<ul>
+<li><code>Appointment records</code> appear multiple times in an <code>appointment log table</code>.</li>
+<li>The <code>date dimension table</code> may have a record for every calendar date.</li>
+<li>Dates might extend for decades into the future.</li>
+</ul>
+</li>
+<li>To design a <code>database</code> or <code>data warehouse</code>, understand these concepts in detail.</li>
+<li>To query the <code>database</code> for an analytical dataset:
+<ul>
+<li>Understand the <code>table grain</code> (level of detail).</li>
+<li>Know what set of columns makes a row unique.</li>
+<li>Understand how the <code>tables</code> are related.</li>
+</ul>
+</li>
+<li>Querying a <code>dimensional data warehouse</code> with <code>SQL</code> is similar to querying a <code>relational database</code> with <code>SQL</code>.</li>
+</ul>
+<h1 id="asking-questions-about-the-data-source">Asking Questions About the Data Source</h1>
+<ul>
+<li>Understand the <code>data source</code>, <code>schema design</code>, and <code>table relationships</code> before writing SQL.</li>
+<li>Communicate with <code>subject matter experts</code> (SMEs) for insights.
+<ul>
+<li>SMEs include <code>database administrators</code> (DBAs), <code>ETL engineers</code>, and data entry personnel.</li>
+<li>Use <code>data dictionaries</code> if available.</li>
+</ul>
+</li>
+<li>Example questions for SMEs:
+<ul>
+<li>Which <code>tables</code> should I query for specific data?</li>
+<li>What fields make up the <code>primary key</code>?</li>
+<li>Are records imported directly or transformed?</li>
+<li>Is this table static or updated regularly? How frequently does it update?</li>
+<li>Is the data collected automatically or entered by people?</li>
+</ul>
+</li>
+<li>Check value distributions in fields.
+<ul>
+<li>Visualize data using histograms during <code>Exploratory Data Analysis (EDA)</code>.</li>
+<li>Analyze data by time periods to observe changes.</li>
+</ul>
+</li>
+<li>Know the <code>type of database</code> for efficient querying.
+<ul>
+<li>Different databases have different SQL syntax and performance characteristics.</li>
+</ul>
+</li>
+</ul>
+<h1 id="introduction-to-the-farmers-market-database">Introduction to the Farmer's Market Database</h1>
+<ul>
+<li>Our example <code>MySQL database</code> is for a fictional farmer's market.
+<ul>
+<li>It tracks <code>vendors</code>, <code>products</code>, <code>customers</code>, and <code>sales</code>.</li>
+<li>Includes data on <code>market days</code> like date, hours, day of the week, and weather.</li>
+<li>Contains <code>vendor</code> details such as booth assignments, products, and prices.</li>
+<li>Vendors use <code>networked cash registers</code> to ring up items.</li>
+<li>Customers scan <code>loyalty cards</code> with each transaction.</li>
+<li>We have detailed logs of purchases.
+<ul>
+<li>We know who purchased which items and exactly when.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="exercises">Exercises</h1>
+<ol>
+<li>
+<p>What do you think will happen in the described Books and Authors database depicted in Figure 1.5 if an author changes their name? Which records might be added or updated, and what might be the effect on the results of future queries based on this data?</p>
+</li>
+<li>
+<p>Think of something in your life to track using a database.</p>
+<ul>
+<li>One-to-Many Relationships:
+<ul>
+<li>Example: One person can have many email addresses.</li>
+</ul>
+</li>
+<li>Many-to-Many Relationships:
+<ul>
+<li>Example: Students and courses. One student can enroll in many courses, and one course can have many students.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+            
+            
+        </body>
+        </html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>The SELECT statement</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <hr>
+<h2 id="title-sql-chapter-2-time-1author-db">title: &quot;SQL Chapter 2 Time 1&quot;
+author: &quot;db&quot;</h2>
+<h1 id="the-select-statement">The SELECT statement</h1>
+<ul>
+<li>The SELECT statement is a basic SQL command to get data from a database. It allows you to:
+<ul>
+<li>View data from specific columns.</li>
+<li>Combine data from multiple tables.</li>
+<li>Filter results based on conditions.</li>
+<li>Perform calculations on the data.</li>
+</ul>
+</li>
+<li>SELECT is often capitalized in SQL code:
+<ul>
+<li>It is a reserved keyword.</li>
+<li>Capitalizing helps distinguish it from other text, like field names.</li>
+</ul>
+</li>
+</ul>
+<h1 id="the-fundamental-syntax-structure-of-a-select-query">The Fundamental Syntax Structure of a SELECT Query</h1>
+<ul>
+<li>An SQL SELECT query has a basic structure to specify and manipulate data. Here's the general syntax:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> [columns <span class="hljs-keyword">to</span> <span class="hljs-keyword">return</span>]
+<span class="hljs-keyword">FROM</span> [schema.table]
+<span class="hljs-keyword">WHERE</span> [conditional <span class="hljs-keyword">filter</span> statements]
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> [columns <span class="hljs-keyword">to</span> <span class="hljs-keyword">group</span> <span class="hljs-keyword">on</span>]
+<span class="hljs-keyword">HAVING</span> [conditional <span class="hljs-keyword">filter</span> statements that <span class="hljs-keyword">are</span> run after <span class="hljs-keyword">grouping</span>]
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> [columns <span class="hljs-keyword">to</span> sort <span class="hljs-keyword">on</span>]
+</code></pre>
+<ul>
+<li>SELECT: Specifies the columns to retrieve. Required.</li>
+<li>FROM: Indicates the table (and optionally the schema). Required.</li>
+<li>WHERE: Filters rows before grouping or selecting.</li>
+<li>GROUP BY: Groups rows with the same values in specified columns.</li>
+<li>HAVING: Filters groups based on conditions after grouping.</li>
+<li>ORDER BY: Sorts the resulting data by one or more columns.</li>
+<li>The clauses in brackets are placeholders for actual columns, tables, and conditions. Only SELECT and FROM are mandatory, but other clauses help refine and organize query results.</li>
+</ul>
+<h1 id="selecting-columns-and-limiting-the-number-of-rows-returned">Selecting Columns and Limiting the Number of Rows Returned</h1>
+<ul>
+<li>Basic Syntax: The simplest form of a SELECT statement is:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> [schema.table]
+</code></pre>
+<ul>
+<li>This query retrieves all columns from the specified table in the schema. <code>FROM schema.table</code> specifies the schema and table name.</li>
+<li>Example:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> farmers_market.product
+</code></pre>
+<ul>
+<li>This query selects all columns and rows from the <code>product</code> table in the <code>farmers_market</code> schema.</li>
+<li>Without a WHERE clause, the query returns all rows in the table.</li>
+<li>Introducing the LIMIT Clause:
+<ul>
+<li>LIMIT restricts the number of rows returned.</li>
+<li>Useful for previewing a subset of large datasets without processing the entire table.</li>
+</ul>
+</li>
+<li>Example of using LIMIT:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> farmers_market.product
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<ul>
+<li>This query retrieves all columns but only the first five rows from the <code>product</code> table.</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.1.png" alt="Figure 2.1"></p>
+<figcaption></figcaption>
+<ul>
+<li>Different database systems use different syntax to limit results:
+<ul>
+<li>MySQL: Use the LIMIT clause at the end of the query.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> table_name
+LIMIT number_of_rows
+</code></pre>
+<pre><code>- MS SQL Server: Use the TOP keyword before the SELECT statement.
+</code></pre>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> TOP number_of_rows <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> table_name
+</code></pre>
+<pre><code>- Oracle: Use `ROWNUM &lt;= number` in the WHERE clause.
+</code></pre>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> table_name
+<span class="hljs-keyword">WHERE</span> ROWNUM <span class="hljs-operator">&lt;=</span> number_of_rows
+</code></pre>
+<ul>
+<li>Use line breaks and indentation in SQL queries for readability; it does not affect execution.</li>
+<li>To specify columns to retrieve, list column names after SELECT, separated by commas, instead of using * to select all columns.</li>
+<li>Example:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> product_id, product_name
+<span class="hljs-keyword">FROM</span> farmers_market.product
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<ul>
+<li>This query selects the <code>product_id</code> and <code>product_name</code> columns from the <code>product</code> table and limits the output to the first five rows.</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.2.png" alt="Figure 2.2"></p>
+<figcaption></figcaption>
+<ul>
+<li>List column names explicitly instead of using * for stability and consistency:
+<ul>
+<li>Schema Changes: Using <code>SELECT *</code> can lead to unexpected results if the table structure changes.</li>
+<li>Consistent Output: Explicitly listing columns ensures consistent output even if the schema changes.</li>
+</ul>
+</li>
+<li>Preventing Breakages:
+<ul>
+<li>Automated Processes: Unexpected changes in output can cause failures in automated data pipelines.</li>
+<li>Error Detection: Explicitly listing columns will cause the query to fail if a column is removed or renamed, alerting you to the change.</li>
+</ul>
+</li>
+<li>The following query retrieves the first five rows of market date, vendor ID, and booth number from the <code>vendor_booth_assignments</code> table:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> market_date, vendor_id, booth_number 
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_booth_assignments 
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.3.png" alt="Figure 2.3"></p>
+<figcaption></figcaption>
+<ul>
+<li>We can sort this output by market date to make it more meaningful.</li>
+</ul>
+<h1 id="the-order-by-clause-sorting-results">The ORDER BY Clause: Sorting Results</h1>
+<ul>
+<li>
+<p>The ORDER BY clause sorts output rows based on one or more columns.</p>
+<ul>
+<li>Specify sort order: ASC (ascending) or DESC (descending).</li>
+<li>ASC: Sorts text alphabetically and numbers from low to high.</li>
+<li>DESC: Sorts in reverse order.</li>
+<li>In MySQL, NULL values appear first in ascending order.</li>
+<li>Default sort order is ascending.</li>
+</ul>
+</li>
+<li>
+<p>The following query sorts the results by product name:</p>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> product_id, product_name 
+<span class="hljs-keyword">FROM</span> farmers_market.product 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> product_name
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.4.png" alt="Figure 2.4"></p>
+<figcaption></figcaption>
+<ul>
+<li>The following query sorts the results by product ID in descending order:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> product_id, product_name 
+<span class="hljs-keyword">FROM</span> farmers_market.product 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> product_id <span class="hljs-keyword">DESC</span>
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.5.png" alt="Figure 2.5"></p>
+<figcaption></figcaption>
+<ul>
+<li>The rows in Figure 2.5 are different from the previous query because the ORDER BY clause is executed before the LIMIT clause.</li>
+<li>We can first sort the output by market date and then by vendor ID.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> market_date, vendor_id, booth_number
+<span class="hljs-keyword">FROM</span> farmers_market.vendor_booth_assignments
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> market_date, vendor_id
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.6.png" alt="Figure 2.6"></p>
+<figcaption></figcaption>
+<h1 id="introduction-to-simple-inline-calculations">Introduction to Simple Inline Calculations</h1>
+<ul>
+<li>This section shows examples of calculations on columns.
+<ul>
+<li>Demonstrates how to incorporate calculations into SELECT queries.</li>
+</ul>
+</li>
+<li>Example: Calculate the total price of a purchase.
+<ul>
+<li>Multiply the quantity and cost per quantity columns in the <code>customer_purchases</code> table.</li>
+</ul>
+</li>
+<li>The raw data in the selected columns of the <code>customer_purchases</code> table is shown in Figure 2.7.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    quantity,
+    cost_to_customer_per_qty
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.7.png" alt="Figure 2.7"></p>
+<figcaption></figcaption>
+<ul>
+<li>The following query demonstrates how to multiply the values in two columns to calculate the price:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    quantity,
+    cost_to_customer_per_qty,
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.8.png" alt="Figure 2.8"></p>
+<figcaption></figcaption>
+<ul>
+<li>To give the calculated column a meaningful name, use the AS keyword to create an alias.
+<ul>
+<li>Example: Assign the alias <code>price</code> to the result of the calculation.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty <span class="hljs-keyword">AS</span> price
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.9.png" alt="Figure 2.9"></p>
+<figcaption></figcaption>
+<ul>
+<li>The AS keyword is optional in MySQL, so this query will return the same result:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty price
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<ul>
+<li>Next, calculate how much a customer paid for all products purchased from each vendor on a specific day.
+<ul>
+<li>Add up the prices for each customer, vendor, and market date.</li>
+</ul>
+</li>
+<li>Aggregating Data:
+<ul>
+<li>Aggregate calculations summarize data across multiple rows.</li>
+<li>Examples: <code>SUM</code>, <code>AVG</code>, <code>COUNT</code> functions.</li>
+<li>These techniques are covered in Chapter 6.</li>
+</ul>
+</li>
+<li>So far, calculations are applied to each row individually.
+<ul>
+<li>Example: Calculate the price for each purchase by multiplying quantity by cost per unit.</li>
+<li>These calculations do not summarize or combine data across multiple rows.</li>
+</ul>
+</li>
+</ul>
+<h1 id="more-inline-calculation-examples-rounding">More Inline Calculation Examples: Rounding</h1>
+<ul>
+<li>
+<p>A SQL function is code that takes inputs (parameters), performs an operation, and returns a value.</p>
+</li>
+<li>
+<p>Use functions in your query to modify raw values from database tables before displaying them.</p>
+</li>
+<li>
+<p>The syntax for calling a SQL function is:</p>
+<ul>
+<li>Input parameters can be a field (column) name or a constant value.</li>
+<li>Refer to function documentation for correct parameters at <a href="https://dev.mysql.com/doc">https://dev.mysql.com/doc</a> for MySQL.</li>
+</ul>
+</li>
+<li>
+<p>Example: The ROUND function rounds values in the <code>price</code> column to two decimal places.</p>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    market_date,
+    customer_id,
+    vendor_id,
+    ROUND(quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty, <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> price
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+LIMIT <span class="hljs-number">10</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.10.png" alt="Figure 2.10"></p>
+<figcaption></figcaption>
+<ul>
+<li>The ROUND function can accept negative values for the second parameter to round to the left of the decimal point.
+<ul>
+<li>Example: <code>ROUND(1245, -2)</code> returns 1200.</li>
+</ul>
+</li>
+</ul>
+<h1 id="more-inline-calculation-examples-concatenating-strings">More Inline Calculation Examples: Concatenating Strings</h1>
+<ul>
+<li>SQL functions can also manipulate text data.</li>
+<li>The CONCAT function concatenates strings together.</li>
+<li>In the customer table, the first name and last name are stored in separate columns.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> farmers_market.customer
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.11.png" alt="Figure 2.11"></p>
+<figcaption></figcaption>
+<ul>
+<li>We use the CONCAT function to combine the first name, a space, and the last name into a single column called <code>customer_name</code>.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    customer_id,
+    CONCAT(customer_first_name, &quot; &quot;, customer_last_name) <span class="hljs-keyword">AS</span> customer_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.12.png" alt="Figure 2.12"></p>
+<figcaption></figcaption>
+<ul>
+<li>We can sort the last name first by an ORDER BY clause, and then concatenate the first name and last name.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    customer_id,
+    CONCAT(customer_first_name, &quot; &quot;, customer_last_name) <span class="hljs-keyword">AS</span> customer_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> customer_last_name, customer_first_name
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.13.png" alt="Figure 2.13"></p>
+<figcaption></figcaption>
+<ul>
+<li>You can nest functions within each other.
+<ul>
+<li>Example: Use the UPPER function to convert the concatenated name to uppercase.</li>
+<li>Change the representation to last name, a comma, a space, and the first name, all in uppercase.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span>
+    customer_id,
+    <span class="hljs-built_in">UPPER</span>(CONCAT(customer_last_name, &quot;, &quot;, customer_first_name)) <span class="hljs-keyword">AS</span> customer_name
+<span class="hljs-keyword">FROM</span> farmers_market.customer
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> customer_last_name, customer_first_name
+LIMIT <span class="hljs-number">5</span>
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.14.png" alt="Figure 2.14"></p>
+<figcaption></figcaption>
+<ul>
+<li>Notes:
+<ul>
+<li>Sorting on Existing Columns: Sorting is done on <code>customer_last_name</code> and <code>customer_first_name</code> columns, not on the derived <code>customer_name</code> column.</li>
+<li>Limitations of Aliases: You might not be able to reuse aliases in other parts of the query, depending on the database system and functions used.</li>
+<li>Using Functions in ORDER BY: You can use functions or calculations directly in the ORDER BY clause. Example: <code>ORDER BY UPPER(customer_last_name)</code> to sort uppercased last names alphabetically.</li>
+</ul>
+</li>
+</ul>
+<h1 id="evaluating-query-output">Evaluating Query Output</h1>
+<ul>
+<li>When developing a SQL SELECT statement, follow these steps to ensure the results include the expected rows and columns in the desired format:
+<ul>
+<li>Run the query with a LIMIT clause to preview the first few rows.
+<ul>
+<li>Verify that changes are reflected in the output.</li>
+<li>Inspect column names and a few output values to ensure they look as intended.</li>
+</ul>
+</li>
+<li>Verify Total Rows:
+<ul>
+<li>Run the query without the LIMIT clause or use a COUNT function to confirm the total number of rows.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Use the Query Editor to review the results of your query.
+<ul>
+<li>Provides a quick sanity check but is not a substitute for full quality control.</li>
+<li>To review the full dataset, remove the LIMIT clause from your query.</li>
+<li>In MySQL Workbench, use the &quot;Don't Limit&quot; option under the Query menu to disable the row limit.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.15.png" alt="Figure 2.15"></p>
+<figcaption></figcaption>
+<ul>
+<li>Then we run the query to generate the full output.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+     market_date, 
+     customer_id, 
+     vendor_id, 
+     ROUND(quantity <span class="hljs-operator">*</span> cost_to_customer_per_qty, <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> price 
+<span class="hljs-keyword">FROM</span> farmers_market.customer_purchases
+</code></pre>
+<ul>
+<li>Firstly, check the total count of rows returned to ensure it matches expectations.
+<ul>
+<li>Displayed at the bottom of the result window or in the output window.</li>
+<li>Example: 21 rows in the customer_purchases table.</li>
+<li>In MySQL Workbench, indicated in the Message of the Output section in the lower right.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.16.png" alt="Figure 2.16"></p>
+<figcaption></figcaption>
+<ul>
+<li>Next, review the resulting dataset, called &quot;Result Grid&quot; in MySQL Workbench.
+<ul>
+<li>Check the column headers.</li>
+<li>Scroll through the rows to spot-check a few values.</li>
+<li>Verify sorting if using ORDER BY.</li>
+</ul>
+</li>
+<li>Use the editor to manually sort each column.
+<ul>
+<li>Example: Sort by the <code>market_date</code> column in ascending order.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.17.png" alt="Figure 2.17"></p>
+<figcaption></figcaption>
+<ul>
+<li>We can also sort by the <code>vendor_id</code> column.</li>
+<li>This helps to check the minimum and maximum values in each column.
+<ul>
+<li>Often where errors are found, such as unexpected negative values or NULLs.</li>
+<li>Look for strings that start with numbers or spaces, or other anomalies.</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.18.png" alt="Figure 2.18"></p>
+<figcaption></figcaption>
+<h1 id="select-statement-summary">SELECT Statement Summary</h1>
+<ul>
+<li>All SQL queries start with the SELECT statement, even the most complex ones.</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> [columns <span class="hljs-keyword">to</span> <span class="hljs-keyword">return</span>]
+<span class="hljs-keyword">FROM</span> [schema.table]
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> [columns <span class="hljs-keyword">to</span> sort <span class="hljs-keyword">on</span>]
+</code></pre>
+<ul>
+<li>We should be able to describe what the two queries below do:</li>
+</ul>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> farmers_market.vendor
+
+<span class="hljs-keyword">SELECT</span> 
+     vendor_name,
+     vendor_id,
+     vendor_type
+<span class="hljs-keyword">FROM</span> farmers_market.vendor 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> vendor_name
+</code></pre>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.19.png" alt="Figure 2.19"></p>
+<figcaption></figcaption>
+<p><img src="file:///c:\Users\tuand\OneDrive - stud.uni-goettingen.de\Attachments\Github\SQL4DS\Fotos\Chapter2\Fig_2.20.png" alt="Figure 2.20"></p>
+<figcaption></figcaption>
+<h1 id="exercises-using-theincluded-database">Exercises Using the Included Database</h1>
+<ul>
+<li>The following exercises refer to the customer table.</li>
+<li>The columns in the customer table and some example rows with data values are shown in Figure 2.11.</li>
+</ul>
+<ol>
+<li>Write a query that retrieves all columns from the customer table.</li>
+<li>Write a query that displays all of the columns and 10 rows from the customer table, sorted by the customer's last name, then first name.</li>
+<li>Write a query that lists all customer IDs and first names in the customer table, sorted by first name.</li>
+</ol>
+
+            
+            
+        </body>
+        </html>
