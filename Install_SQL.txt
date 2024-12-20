@@ -1,0 +1,9 @@
+sudo apt-get update
+sudo apt-get install mysql-server
+sudo service mysql start
+sudo service mysql status
+sudo mysql -u root
+SOURCE /workspaces/SQL4DS/database/FarmersMarketDatabase.sql/FarmersMarketDatabase.sql;
+SHOW DATABASES;
+USE farmers_market;
+SHOW TABLES;
