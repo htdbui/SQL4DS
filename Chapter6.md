@@ -1108,7 +1108,7 @@ ORDER BY vendor_id
 
 - Multiply `quantity * original_price` per row, then calculate the aggregate `SUM`s.
 
-- Divide one `SUM` by the other to get the “average item price.”
+- Divide one `SUM` by the other to get the â€œaverage item price.â€
 
 - This involves operations both before and after `GROUP BY` summarization.
 
@@ -1198,10 +1198,10 @@ ORDER BY vendor_id
   - This included discrete items sold individually as well as bulk items sold by ounce or pound.
   - It was awkward to add those quantities together.
 
-- In Chapter 4, “Conditionals / CASE Statements,” you learned about conditional `CASE` statements.
-  - Here, we’ll use a `CASE` statement to specify which type of item quantities to add together using each `SUM` aggregate function.
-- First, we’ll need to `JOIN` the `customer_purchases` table to the `product` table to pull in the `product_qty_type` column.
-  - This column currently only contains the values “unit” and “lbs.”
+- In Chapter 4, â€œConditionals / CASE Statements,â€ you learned about conditional `CASE` statements.
+  - Here, weâ€™ll use a `CASE` statement to specify which type of item quantities to add together using each `SUM` aggregate function.
+- First, weâ€™ll need to `JOIN` the `customer_purchases` table to the `product` table to pull in the `product_qty_type` column.
+  - This column currently only contains the values â€œunitâ€ and â€œlbs.â€
 
 - In Table 6.7, we added quantity values from `customer_purchases`, mixing individual and bulk items, which was awkward.
 
@@ -1454,15 +1454,15 @@ LIMIT 5
     </tbody>
 </table>
 
-# Exercises Using the Included Database
+# Exercises Using theÂ Included Database
 
-1. Write a query that determines how many times each vendor has rented a booth at the farmer’s market.
+1. Write a query that determines how many times each vendor has rented a booth at the farmerâ€™s market.
   - Count the vendor booth assignments per `vendor_id`.
 
-2. In Chapter 5, “SQL Joins,” Exercise 3, we asked, “When is each type of fresh fruit or vegetable in season, locally?”
-  - Write a query that displays the product category name, product name, earliest date available, and latest date available for every product in the “Fresh Fruits & Vegetables” product category.
+2. In Chapter 5, â€œSQL Joins,â€ Exercise 3, we asked, â€œWhen is each type of fresh fruit or vegetable in season, locally?â€
+  - Write a query that displays the product category name, product name, earliest date available, and latest date available for every product in the â€œFresh Fruits & Vegetablesâ€ product category.
 
-3. The Farmer’s Market Customer Appreciation Committee wants to give a bumper sticker to everyone who has ever spent more than $50 at the market.
+3. The Farmerâ€™s Market Customer Appreciation Committee wants to give a bumper sticker to everyone who has ever spent more than $50 at the market.
   - Write a query that generates a list of customers for them to give stickers to.
   - Sort by last name, then first name.
   - (Hint: This query requires you to join two tables, use an aggregate function, and use the `HAVING` keyword.)

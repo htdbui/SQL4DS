@@ -69,7 +69,7 @@ FROM farmers_market.vendor
         </tr>
         <tr>
             <td>2</td>
-            <td>Hern·ndez Salsa & Veggies</td>
+            <td>Hern√°ndez Salsa & Veggies</td>
             <td>Fresh Variety: Veggies & More</td>
             <td>Fresh Produce</td>
         </tr>
@@ -514,7 +514,7 @@ FROM farmers_market.vendor
         </tr>
         <tr>
             <td>2</td>
-            <td>Hern·ndez Salsa & Veggies</td>
+            <td>Hern√°ndez Salsa & Veggies</td>
             <td>Fresh Variety: Veggies & More</td>
             <td>0</td>
             <td>0</td>

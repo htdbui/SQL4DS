@@ -389,7 +389,7 @@ WHERE (cp.market_date <> '2019-03-02' OR cp.market_date IS NULL)
 ![Figure 5.18](Fotos/Chapter5/Fig_5.18.png)
 <figcaption></figcaption>
 
-- What `JOIN`s could we use to ensure all booths are included, even if they aren’t assigned to a vendor yet, and all vendors assigned to booths are included?
+- What `JOIN`s could we use to ensure all booths are included, even if they arenÂ’t assigned to a vendor yet, and all vendors assigned to booths are included?
   - We can `LEFT JOIN` `vendor_booth_assignments` to `booth`, including all booths.
   - `LEFT JOIN` `vendor` to `vendor_booth_assignments`.
   - The query looks like this and results in Figure 5.19:
