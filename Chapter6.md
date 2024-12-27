@@ -26,65 +26,61 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.1</caption>
-    <thead>
-        <tr>
-            <th>product_id</th>
-            <th>vendor_id</th>
-            <th>market_date</th>
-            <th>customer_id</th>
-            <th>quantity</th>
-            <th>cost_to_customer_per_qty</th>
-            <th>transaction_time</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>4</td>
-            <td>7</td>
-            <td>2019-04-03</td>
-            <td>3</td>
-            <td>1.00</td>
-            <td>4.00</td>
-            <td>18:44:00</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>7</td>
-            <td>2019-04-03</td>
-            <td>4</td>
-            <td>1.00</td>
-            <td>4.00</td>
-            <td>18:09:00</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>8</td>
-            <td>2019-04-03</td>
-            <td>5</td>
-            <td>1.00</td>
-            <td>18.00</td>
-            <td>18:41:00</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>7</td>
-            <td>2019-04-03</td>
-            <td>5</td>
-            <td>3.00</td>
-            <td>4.00</td>
-            <td>18:54:00</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>7</td>
-            <td>2019-04-03</td>
-            <td>6</td>
-            <td>4.00</td>
-            <td>4.00</td>
-            <td>18:49:00</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.1</caption>
+  <tr>
+    <th>product_id</th>
+    <th>vendor_id</th>
+    <th>market_date</th>
+    <th>customer_id</th>
+    <th>quantity</th>
+    <th>cost_to_customer_per_qty</th>
+    <th>transaction_time</th>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>3</td>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>1.00</td>
+    <td>4.00</td>
+    <td>18:44:00</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>3</td>
+    <td>2019-04-03</td>
+    <td>4</td>
+    <td>1.00</td>
+    <td>4.00</td>
+    <td>18:09:00</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>3</td>
+    <td>2019-04-03</td>
+    <td>5</td>
+    <td>3.00</td>
+    <td>4.00</td>
+    <td>18:54:00</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>6</td>
+    <td>2019-04-03</td>
+    <td>5</td>
+    <td>1.00</td>
+    <td>18.00</td>
+    <td>18:41:00</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>3</td>
+    <td>2019-04-03</td>
+    <td>6</td>
+    <td>1.00</td>
+    <td>6.50</td>
+    <td>17:22:00</td>
+  </tr>
 </table>
 
 - We focus on two fields.
@@ -418,47 +414,43 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.8</caption>
-    <thead>
-        <tr>
-            <th>market_date</th>
-            <th>customer_id</th>
-            <th>vendor_id</th>
-            <th>price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2019-04-03</td>
-            <td>3</td>
-            <td>7</td>
-            <td>4.0000</td>
-        </tr>
-        <tr>
-            <td>2019-04-13</td>
-            <td>3</td>
-            <td>7</td>
-            <td>4.0000</td>
-        </tr>
-        <tr>
-            <td>2019-04-13</td>
-            <td>3</td>
-            <td>7</td>
-            <td>16.0000</td>
-        </tr>
-        <tr>
-            <td>2019-04-13</td>
-            <td>3</td>
-            <td>8</td>
-            <td>18.0000</td>
-        </tr>
-        <tr>
-            <td>2019-04-13</td>
-            <td>3</td>
-            <td>8</td>
-            <td>18.0000</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.8</caption>
+  <tr>
+    <th>market_date</th>
+    <th>customer_id</th>
+    <th>vendor_id</th>
+    <th>price</th>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>3</td>
+    <td>4.0000</td>
+  </tr>
+  <tr>
+    <td>2019-04-13</td>
+    <td>3</td>
+    <td>2</td>
+    <td>18.0000</td>
+  </tr>
+  <tr>
+    <td>2019-04-13</td>
+    <td>3</td>
+    <td>4</td>
+    <td>18.0000</td>
+  </tr>
+  <tr>
+    <td>2019-04-13</td>
+    <td>3</td>
+    <td>4</td>
+    <td>16.0000</td>
+  </tr>
+  <tr>
+    <td>2019-04-13</td>
+    <td>3</td>
+    <td>4</td>
+    <td>4.0000</td>
+  </tr>
 </table>
 
 - To find total spending per customer on each `market_date`, group by `market_date` and use `SUM` to add item prices.
@@ -538,31 +530,57 @@ ORDER BY customer_id, vendor_id
 ```
 
 <table>
-    <caption>Table 6.10</caption>
-    <thead>
-        <tr>
-            <th>customer_id</th>
-            <th>vendor_id</th>
-            <th>total_spent</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>3</td>
-            <td>4</td>
-            <td>78.9000</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>7</td>
-            <td>1031.2575</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>8</td>
-            <td>2722.0000</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.10</caption>
+  <tr>
+    <th>customer_id</th>
+    <th>vendor_id</th>
+    <th>total_spent</th>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>1</td>
+    <td>291.9536</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>2</td>
+    <td>332.3101</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>3</td>
+    <td>713.0967</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>4</td>
+    <td>599.0258</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>5</td>
+    <td>310.5352</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>6</td>
+    <td>438.3000</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>7</td>
+    <td>242.4963</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>8</td>
+    <td>558.4940</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>9</td>
+    <td>345.9458</td>
+  </tr>
 </table>
 
 - Again, this query provides the same result:
@@ -588,41 +606,37 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.11</caption>
-    <thead>
-        <tr>
-            <th>customer_id</th>
-            <th>vendor_id</th>
-            <th>total_spent</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>4</td>
-            <td>88.7000</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>7</td>
-            <td>1131.2187</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>8</td>
-            <td>2311.0000</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>4</td>
-            <td>71.9000</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>7</td>
-            <td>1457.0529</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.11</caption>
+  <tr>
+    <th>customer_id</th>
+    <th>vendor_id</th>
+    <th>total_spent</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+    <td>303.7412</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>2</td>
+    <td>371.8064</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>3</td>
+    <td>374.9069</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>4</td>
+    <td>425.1200</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>5</td>
+    <td>419.9807</td>
+  </tr>
 </table>
 
 - Aggregation can be done on joined tables too.
@@ -653,59 +667,55 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.12</caption>
-    <thead>
-        <tr>
-            <th>customer_first_name</th>
-            <th>customer_last_name</th>
-            <th>customer_id</th>
-            <th>vendor_name</th>
-            <th>vendor_id</th>
-            <th>price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Fields of Corn</td>
-            <td>4</td>
-            <td>7.2000</td>
-        </tr>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Fields of Corn</td>
-            <td>4</td>
-            <td>1.0000</td>
-        </tr>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Fields of Corn</td>
-            <td>4</td>
-            <td>4.5000</td>
-        </tr>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Fields of Corn</td>
-            <td>4</td>
-            <td>3.6000</td>
-        </tr>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Fields of Corn</td>
-            <td>4</td>
-            <td>1.0000</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.12</caption>
+  <tr>
+    <th>customer_first_name</th>
+    <th>customer_last_name</th>
+    <th>customer_id</th>
+    <th>vendor_name</th>
+    <th>vendor_id</th>
+    <th>price</th>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Chris's Sustainable Eggs & Meats</td>
+    <td>1</td>
+    <td>18.4536</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Chris's Sustainable Eggs & Meats</td>
+    <td>1</td>
+    <td>1.0000</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Chris's Sustainable Eggs & Meats</td>
+    <td>1</td>
+    <td>4.0000</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Chris's Sustainable Eggs & Meats</td>
+    <td>1</td>
+    <td>8.0000</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Chris's Sustainable Eggs & Meats</td>
+    <td>1</td>
+    <td>20.0000</td>
+  </tr>
 </table>
 
 - Again, this query provides the same result:
@@ -742,43 +752,87 @@ ORDER BY cp.customer_id, cp.vendor_id
 ```
 
 <table>
-    <caption>Table 6.13</caption>
-    <thead>
-        <tr>
-            <th>customer_first_name</th>
-            <th>customer_last_name</th>
-            <th>customer_id</th>
-            <th>vendor_name</th>
-            <th>vendor_id</th>
-            <th>total_spent</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Fields of Corn</td>
-            <td>4</td>
-            <td>78.9000</td>
-        </tr>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Marco's Peppers</td>
-            <td>7</td>
-            <td>1031.2575</td>
-        </tr>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Annie's Pies</td>
-            <td>8</td>
-            <td>2722.0000</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.13</caption>
+  <tr>
+    <th>customer_first_name</th>
+    <th>customer_last_name</th>
+    <th>customer_id</th>
+    <th>vendor_name</th>
+    <th>vendor_id</th>
+    <th>total_spent</th>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Chris's Sustainable Eggs & Meats</td>
+    <td>1</td>
+    <td>291.9536</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Hernández Salsa & Veggies</td>
+    <td>2</td>
+    <td>332.3101</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Mountain View Vegetables</td>
+    <td>3</td>
+    <td>713.0967</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Fields of Corn</td>
+    <td>4</td>
+    <td>599.0258</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Seashell Clay Shop</td>
+    <td>5</td>
+    <td>310.5352</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Mother's Garlic & Greens</td>
+    <td>6</td>
+    <td>438.3000</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Marco's Peppers</td>
+    <td>7</td>
+    <td>242.4963</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Annie's Pies</td>
+    <td>8</td>
+    <td>558.4940</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Mediterranean Bakery</td>
+    <td>9</td>
+    <td>345.9458</td>
+  </tr>
 </table>
 
 - Filter by vendor instead of customer to get a list of customers for a vendor.
@@ -812,59 +866,55 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.14</caption>
-    <thead>
-        <tr>
-            <th>customer_first_name</th>
-            <th>customer_last_name</th>
-            <th>customer_id</th>
-            <th>vendor_name</th>
-            <th>vendor_id</th>
-            <th>total_spent</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Jane</td>
-            <td>Connor</td>
-            <td>1</td>
-            <td>Annie's Pies</td>
-            <td>8</td>
-            <td>2311.0000</td>
-        </tr>
-        <tr>
-            <td>Manuel</td>
-            <td>Diaz</td>
-            <td>2</td>
-            <td>Annie's Pies</td>
-            <td>8</td>
-            <td>2650.5000</td>
-        </tr>
-        <tr>
-            <td>Bob</td>
-            <td>Wilson</td>
-            <td>3</td>
-            <td>Annie's Pies</td>
-            <td>8</td>
-            <td>2722.0000</td>
-        </tr>
-        <tr>
-            <td>Deanna</td>
-            <td>Washington</td>
-            <td>4</td>
-            <td>Annie's Pies</td>
-            <td>8</td>
-            <td>2002.0000</td>
-        </tr>
-        <tr>
-            <td>Abigail</td>
-            <td>Harris</td>
-            <td>5</td>
-            <td>Annie's Pies</td>
-            <td>8</td>
-            <td>2728.0000</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.14</caption>
+  <tr>
+    <th>customer_first_name</th>
+    <th>customer_last_name</th>
+    <th>customer_id</th>
+    <th>vendor_name</th>
+    <th>vendor_id</th>
+    <th>total_spent</th>
+  </tr>
+  <tr>
+    <td>Jane</td>
+    <td>Connor</td>
+    <td>1</td>
+    <td>Annie's Pies</td>
+    <td>8</td>
+    <td>506.1768</td>
+  </tr>
+  <tr>
+    <td>Manuel</td>
+    <td>Diaz</td>
+    <td>2</td>
+    <td>Annie's Pies</td>
+    <td>8</td>
+    <td>614.0794</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Wilson</td>
+    <td>3</td>
+    <td>Annie's Pies</td>
+    <td>8</td>
+    <td>558.4940</td>
+  </tr>
+  <tr>
+    <td>Deanna</td>
+    <td>Washington</td>
+    <td>4</td>
+    <td>Annie's Pies</td>
+    <td>8</td>
+    <td>456.9701</td>
+  </tr>
+  <tr>
+    <td>Abigail</td>
+    <td>Harris</td>
+    <td>5</td>
+    <td>Annie's Pies</td>
+    <td>8</td>
+    <td>598.3710</td>
+  </tr>
 </table>
 
 - Removing the `WHERE` clause gives a row for every customer-vendor pair.
@@ -940,12 +990,12 @@ GROUP BY pc.product_category_name, p.product_category_id
             <td>Fresh Fruits & Vegetables</td>
             <td>1</td>
             <td>0.50</td>
-            <td>6.99</td>
+            <td>18.00</td>
         </tr>
         <tr>
             <td>Packaged Prepared Food</td>
             <td>3</td>
-            <td>4.00</td>
+            <td>0.50</td>
             <td>18.00</td>
         </tr>
     </tbody>
@@ -1025,23 +1075,43 @@ ORDER BY vendor_id
 - Note that the `DISTINCT` goes inside the parentheses for the `COUNT()` aggregate function.
 
 <table>
-    <caption>Table 6.18</caption>
-    <thead>
-        <tr>
-            <th>vendor_id</th>
-            <th>different_products_offered</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>7</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>3</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.18</caption>
+  <tr>
+    <th>vendor_id</th>
+    <th>different_products_offered</th>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>2</td>
+  </tr>
 </table>
 
 # Average
@@ -1061,26 +1131,52 @@ ORDER BY vendor_id
 ```
 
 <table>
-    <caption>Table 6.19</caption>
-    <thead>
-        <tr>
-            <th>vendor_id</th>
-            <th>different_products_offered</th>
-            <th>average_product_price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>7</td>
-            <td>1</td>
-            <td>4.000000</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>3</td>
-            <td>14.166667</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.19</caption>
+  <tr>
+    <th>vendor_id</th>
+    <th>different_products_offered</th>
+    <th>average_product_price</th>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>3</td>
+    <td>9.100000</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>2</td>
+    <td>8.625000</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>3</td>
+    <td>11.500000</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>2</td>
+    <td>9.750000</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>3</td>
+    <td>5.100000</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>1</td>
+    <td>16.500000</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>2</td>
+    <td>9.500000</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>2</td>
+    <td>1.500000</td>
+  </tr>
 </table>
 
 - We need to consider the meaning of "average product price."
@@ -1113,32 +1209,70 @@ ORDER BY vendor_id
 - This involves operations both before and after `GROUP BY` summarization.
 
 <table>
-    <caption>Table 6.21</caption>
-    <thead>
-        <tr>
-            <th>vendor_id</th>
-            <th>different_products_offered</th>
-            <th>value_of_inventory</th>
-            <th>inventory_item_count</th>
-            <th>average_item_price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>7</td>
-            <td>1</td>
-            <td>880.0000</td>
-            <td>220.00</td>
-            <td>4.00000000</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>3</td>
-            <td>2502.5000</td>
-            <td>224.00</td>
-            <td>11.17187500</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.20</caption>
+  <tr>
+    <th>vendor_id</th>
+    <th>different_products_offered</th>
+    <th>value_of_inventory</th>
+    <th>inventory_item_count</th>
+    <th>average_item_price</th>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>3</td>
+    <td>700.0000</td>
+    <td>70.00</td>
+    <td>10.00000000</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>2</td>
+    <td>921.0000</td>
+    <td>110.00</td>
+    <td>8.37272727</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>3</td>
+    <td>419.0000</td>
+    <td>46.00</td>
+    <td>9.10869565</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>2</td>
+    <td>474.0000</td>
+    <td>63.00</td>
+    <td>7.52380952</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>3</td>
+    <td>253.0000</td>
+    <td>86.00</td>
+    <td>2.94186047</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>1</td>
+    <td>115.5000</td>
+    <td>7.00</td>
+    <td>16.50000000</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>2</td>
+    <td>488.0000</td>
+    <td>46.00</td>
+    <td>10.60869565</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>2</td>
+    <td>24.0000</td>
+    <td>16.00</td>
+    <td>1.50000000</td>
+  </tr>
 </table>
 
 # Filtering with HAVING
@@ -1162,30 +1296,47 @@ SELECT
 FROM farmers_market.vendor_inventory
 WHERE market_date BETWEEN '2019-04-03' AND '2019-04-20' 
 GROUP BY vendor_id
-HAVING inventory_item_count > 220
+HAVING inventory_item_count > 50
 ORDER BY vendor_id
 ```
 
 <table>
-    <caption>Table 6.22</caption>
-    <thead>
-        <tr>
-            <th>vendor_id</th>
-            <th>different_products_offered</th>
-            <th>value_of_inventory</th>
-            <th>inventory_item_count</th>
-            <th>average_item_price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>8</td>
-            <td>3</td>
-            <td>2502.5000</td>
-            <td>224.00</td>
-            <td>11.17187500</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.21</caption>
+  <tr>
+    <th>vendor_id</th>
+    <th>different_products_offered</th>
+    <th>value_of_inventory</th>
+    <th>inventory_item_count</th>
+    <th>average_item_price</th>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>3</td>
+    <td>700.0000</td>
+    <td>70.00</td>
+    <td>10.00000000</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>2</td>
+    <td>921.0000</td>
+    <td>110.00</td>
+    <td>8.37272727</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>2</td>
+    <td>474.0000</td>
+    <td>63.00</td>
+    <td>7.52380952</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>3</td>
+    <td>253.0000</td>
+    <td>86.00</td>
+    <td>2.94186047</td>
+  </tr>
 </table>
 
 - Use `GROUP BY` on all distinct fields, then add a `HAVING COUNT(*) > 1` clause.
@@ -1227,71 +1378,67 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.23</caption>
-    <thead>
-        <tr>
-            <th>market_date</th>
-            <th>vendor_id</th>
-            <th>customer_id</th>
-            <th>product_id</th>
-            <th>quantity</th>
-            <th>product_name</th>
-            <th>product_size</th>
-            <th>product_qty_type</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>3</td>
-            <td>4</td>
-            <td>1.00</td>
-            <td>Banana Peppers - Jar</td>
-            <td>8 oz</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>4</td>
-            <td>4</td>
-            <td>1.00</td>
-            <td>Banana Peppers - Jar</td>
-            <td>8 oz</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>5</td>
-            <td>4</td>
-            <td>3.00</td>
-            <td>Banana Peppers - Jar</td>
-            <td>8 oz</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>6</td>
-            <td>4</td>
-            <td>4.00</td>
-            <td>Banana Peppers - Jar</td>
-            <td>8 oz</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>7</td>
-            <td>4</td>
-            <td>5.00</td>
-            <td>Banana Peppers - Jar</td>
-            <td>8 oz</td>
-            <td>unit</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.22</caption>
+  <tr>
+    <th>market_date</th>
+    <th>vendor_id</th>
+    <th>customer_id</th>
+    <th>product_id</th>
+    <th>quantity</th>
+    <th>product_name</th>
+    <th>product_size</th>
+    <th>product_qty_type</th>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>3</td>
+    <td>4</td>
+    <td>1.00</td>
+    <td>Banana Peppers - Jar</td>
+    <td>8 oz</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>4</td>
+    <td>4</td>
+    <td>1.00</td>
+    <td>Banana Peppers - Jar</td>
+    <td>8 oz</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>5</td>
+    <td>4</td>
+    <td>3.00</td>
+    <td>Banana Peppers - Jar</td>
+    <td>8 oz</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>6</td>
+    <td>4</td>
+    <td>4.00</td>
+    <td>Banana Peppers - Jar</td>
+    <td>8 oz</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>7</td>
+    <td>4</td>
+    <td>5.00</td>
+    <td>Banana Peppers - Jar</td>
+    <td>8 oz</td>
+    <td>unit</td>
+  </tr>
 </table>
 
 - Create columns to add quantities sold by unit, by pound, and a third for other units (like bulk ounces).
@@ -1319,71 +1466,67 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.24</caption>
-    <thead>
-        <tr>
-            <th>market_date</th>
-            <th>vendor_id</th>
-            <th>customer_id</th>
-            <th>product_id</th>
-            <th>quantity_units</th>
-            <th>quantity_lbs</th>
-            <th>quantity_other</th>
-            <th>product_qty_type</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>3</td>
-            <td>4</td>
-            <td>1.00</td>
-            <td>0</td>
-            <td>0</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>4</td>
-            <td>4</td>
-            <td>1.00</td>
-            <td>0</td>
-            <td>0</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>5</td>
-            <td>4</td>
-            <td>3.00</td>
-            <td>0</td>
-            <td>0</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>6</td>
-            <td>4</td>
-            <td>4.00</td>
-            <td>0</td>
-            <td>0</td>
-            <td>unit</td>
-        </tr>
-        <tr>
-            <td>2019-04-03</td>
-            <td>7</td>
-            <td>7</td>
-            <td>4</td>
-            <td>5.00</td>
-            <td>0</td>
-            <td>0</td>
-            <td>unit</td>
-        </tr>
-    </tbody>
+  <caption>Table 6.23</caption>
+  <tr>
+    <th>market_date</th>
+    <th>vendor_id</th>
+    <th>customer_id</th>
+    <th>product_id</th>
+    <th>quantity_units</th>
+    <th>quantity_lbs</th>
+    <th>quantity_other</th>
+    <th>product_qty_type</th>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>3</td>
+    <td>4</td>
+    <td>1.00</td>
+    <td>0</td>
+    <td>0</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>4</td>
+    <td>4</td>
+    <td>1.00</td>
+    <td>0</td>
+    <td>0</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>5</td>
+    <td>4</td>
+    <td>3.00</td>
+    <td>0</td>
+    <td>0</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>6</td>
+    <td>4</td>
+    <td>4.00</td>
+    <td>0</td>
+    <td>0</td>
+    <td>unit</td>
+  </tr>
+  <tr>
+    <td>2019-04-03</td>
+    <td>3</td>
+    <td>7</td>
+    <td>4</td>
+    <td>5.00</td>
+    <td>0</td>
+    <td>0</td>
+    <td>unit</td>
+  </tr>
 </table>
 
 - Add `SUM` functions around each `CASE` statement to sum values per market date per customer, as defined in the `GROUP BY` clause.
