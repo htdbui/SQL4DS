@@ -175,7 +175,6 @@ LIMIT 5
 SELECT DISTINCT 
     market_date, customer_id
 FROM farmers_market.customer_purchases 
-GROUP BY market_date, customer_id
 ORDER BY market_date, customer_id
 LIMIT 5
 ```
