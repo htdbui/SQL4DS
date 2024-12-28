@@ -3,7 +3,16 @@ sudo apt-get install mysql-server
 sudo service mysql start
 sudo service mysql status
 sudo mysql -u root
-SOURCE /workspaces/SQL4DS/database/FarmersMarketDatabase.sql/FarmersMarketDatabase.sql;
+SOURCE /workspaces/SQL4DS/database/FarmersMarketDatabase2.sql;
+SHOW DATABASES;
+USE farmers_market;
+SHOW TABLES;
+
+# Windows
+
+source C:/Users/tuand/OneDrive - stud.uni-goettingen.de/Attachments/Github/SQL4DS/database/FarmersMarketDatabase2.sql;
+
+mysql -u root -p
 SHOW DATABASES;
 USE farmers_market;
 SHOW TABLES;
