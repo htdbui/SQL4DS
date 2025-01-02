@@ -402,7 +402,7 @@ LIMIT 5
 </table>
 
 - Rows in Table 2.5 differ because `ORDER BY` runs before `LIMIT`.
-  - `LIMIT` must be after `ORDER BY`.+
+  - `LIMIT` must be after `ORDER BY`.
 - First, sort by `market_date`, then by `vendor_id`.
 
 ```sql
@@ -821,7 +821,7 @@ LIMIT 5
     </tbody>
 </table>
 
-- Sort by `last_name` using `ORDER BY` first.
+- First, sort by `last_name` and `first name`.
 
 - Then concatenate `first_name` and `last_name`.
 
