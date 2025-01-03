@@ -19,73 +19,6 @@ ORDER BY [columns to sort on]
 - Without grouping, a query listing customer IDs by market date shows duplicates per purchase.
 
 ```sql
-SELECT *
-FROM farmers_market.customer_purchases 
-ORDER BY market_date, customer_id
-LIMIT 5
-```
-
-<table>
-  <caption>Table 6.1</caption>
-  <tr>
-    <th>product_id</th>
-    <th>vendor_id</th>
-    <th>market_date</th>
-    <th>customer_id</th>
-    <th>quantity</th>
-    <th>cost_to_customer_per_qty</th>
-    <th>transaction_time</th>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>3</td>
-    <td>2019-04-03</td>
-    <td>3</td>
-    <td>1.00</td>
-    <td>4.00</td>
-    <td>18:44:00</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>3</td>
-    <td>2019-04-03</td>
-    <td>4</td>
-    <td>1.00</td>
-    <td>4.00</td>
-    <td>18:09:00</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>3</td>
-    <td>2019-04-03</td>
-    <td>5</td>
-    <td>3.00</td>
-    <td>4.00</td>
-    <td>18:54:00</td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>6</td>
-    <td>2019-04-03</td>
-    <td>5</td>
-    <td>1.00</td>
-    <td>18.00</td>
-    <td>18:41:00</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>3</td>
-    <td>2019-04-03</td>
-    <td>6</td>
-    <td>1.00</td>
-    <td>6.50</td>
-    <td>17:22:00</td>
-  </tr>
-</table>
-
-- We focus on two fields.
-
-```sql
 SELECT 
     market_date, customer_id
 FROM farmers_market.customer_purchases 
@@ -94,7 +27,7 @@ LIMIT 5
 ```
 
 <table>
-    <caption>Table 6.2</caption>
+    <caption>Table 6.1</caption>
     <thead>
         <tr>
             <th>market_date</th>
@@ -717,13 +650,6 @@ LIMIT 5
   </tr>
 </table>
 
-- Again, this query provides the same result:
-
-```sql
-...
-ORDER BY cp.vendor_id
-```
-
 - To summarize at the level of one row per vendor for customer id 3:
 
 ```sql
@@ -936,7 +862,6 @@ SELECT
     MAX(original_price) AS maximum_price 
 FROM farmers_market.vendor_inventory 
 ORDER BY original_price
-LIMIT 5
 ```
 
 <table>
