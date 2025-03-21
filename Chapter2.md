@@ -264,11 +264,13 @@ LIMIT 5
 </table>
 
 - Different database systems use different syntax to limit results:
+  
   - MS SQL Server: Use `TOP` before `SELECT`.
   - Oracle: Use `WHERE ROWNUM <= number`.
   - MySQL: Use `LIMIT` at the end of the query.
 
 - Use line breaks and indentation for readability. It does not affect execution.
+
 - To specify columns, list column names after SELECT, separated by commas.
 
 ```sql
@@ -310,16 +312,19 @@ LIMIT 5
 </table>
 
 - List column names explicitly instead of using `*`:
+  
   - `Schema Changes`: `SELECT *` can cause issues if the table changes.
   - `Consistent Output`: Listing columns ensures consistent output.
 
 - Preventing Breakages:
+  
   - `Automated Processes`: Unexpected changes can cause failures.
   - `Error Detection`: Listing columns alerts you if a column is removed or renamed.
 
 # The ORDER BY Clause: Sorting Results
 
 - `ORDER BY` clause sorts rows by columns.
+  
   - Sort order: `ASC` (ascending) or `DESC` (descending).
   - `ASC`: Text alphabetically, numbers low to high.
   - `DESC`: Reverse order.
@@ -649,11 +654,13 @@ LIMIT 5
 ```
 
 - Aggregating Data:
+  
   - Summarize data across multiple rows.
   - Examples: `SUM`, `AVG`, `COUNT`.
   - Covered in Chapter 6.
 
 - Current calculations apply to each row individually.
+  
   - Example: Calculate price by multiplying quantity by cost per unit.
   - These do not summarize or combine data across rows.
 
@@ -664,6 +671,7 @@ LIMIT 5
 - Use functions to modify raw values before displaying them.
 
 - Syntax for calling a `SQL` function:
+  
   - Input parameters can be a column name or a constant value.
   - Refer to documentation for correct parameters: [MySQL Documentation](https://dev.mysql.com/doc).
 
@@ -677,6 +685,7 @@ SELECT
 FROM farmers_market.customer_purchases
 LIMIT 5
 ```
+
 <table>
     <caption>Table 2.10</caption>
     <thead>
@@ -722,7 +731,8 @@ LIMIT 5
 </table>
 
 - `ROUND` can accept negative values for the second parameter to round left of the decimal point.
-    - Example: `ROUND(1245, -2)` returns 1200.
+  
+  - Example: `ROUND(1245, -2)` returns 1200.
 
 - `SQL` functions can manipulate text data.
 
@@ -735,6 +745,7 @@ SELECT *
 FROM farmers_market.customer
 LIMIT 5
 ```
+
 <table>
     <caption>Table 2.11</caption>
     <thead>
@@ -834,7 +845,6 @@ ORDER BY customer_last_name, customer_first_name
 LIMIT 5
 ```
 
-
 <table>
     <caption>Table 2.13</caption>
     <thead>
@@ -919,6 +929,7 @@ LIMIT 5
 # Evaluating Query Output
 
 - Steps to ensure SQL query results are as expected:
+  
   - Run the query with `LIMIT` to preview the first few rows.
     - Verify changes in the output.
     - Check column names and values.
@@ -926,25 +937,30 @@ LIMIT 5
     - Run without `LIMIT` or use `COUNT` to confirm total rows.
 
 - Use the Query Editor to review results:
+  
   - Quick sanity check, not a substitute for full quality control.
   - Remove `LIMIT` to review the full dataset.
   - In MySQL Workbench, use "Don't Limit" under the Query menu.
 
 - Run the query to generate full output:
+  
   - Check total row count to match expectations.
   - Example: 21 rows in `customer_purchases`.
   - In MySQL Workbench, check the Message in the Output section.
 
 - Review the resulting dataset ("Result Grid" in MySQL Workbench):
+  
   - Check column headers.
   - Spot-check values.
   - Verify sorting if using `ORDER BY`.
 
 - Manually sort each column:
+  
   - Example: Sort by `market_date` in ascending order.
   - Sort by `vendor_id` column.
 
 - Check minimum and maximum values in each column:
+  
   - Find errors like unexpected negative values or NULLs.
   - Look for strings starting with numbers or spaces, or other anomalies.
 
@@ -952,7 +968,6 @@ LIMIT 5
 
 - Exercises for the `customer` table:
   - Columns and example rows are shown in Figure 2.11.
-
 1. Retrieve all columns from the `customer` table.
 2. Display all columns and 10 rows, sorted by `last_name`, then `first_name`.
 3. List all `customer_id` and `first_name`, sorted by `first_name`.

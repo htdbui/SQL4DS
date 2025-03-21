@@ -156,10 +156,12 @@ LIMIT 5
 </table>
 
 - What happens if the WHERE clause condition is "customer_id = 3 AND customer_id = 4"?
+  
   - This means "Return each row where the customer ID is 3 and 4."
   - Since a single customer_id cannot be both 3 and 4, no rows are returned.
 
 - When using the AND operator:
+  
   - All conditions with AND must be TRUE for a row to be returned.
   - Example: "WHERE customer_id > 3 AND customer_id <= 5."
 
@@ -741,6 +743,7 @@ LIMIT 5
 </table>
 
 # Exercises
+
 1. Use the data in Table 3.1. Write a query to return all customer purchases of product IDs 4 and 9.
 2. Use the data in Table 3.1. Write two queries:
    - One using two conditions with an AND operator.

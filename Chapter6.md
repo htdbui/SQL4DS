@@ -166,6 +166,7 @@ LIMIT 5
 </table>
 
 - The granularity of `customer_purchases` affects `items_purchased`.
+  
   - Three identical items bought at once show as 1 row with quantity 3.
 
 - Separate purchases generate new rows.
@@ -438,6 +439,7 @@ LIMIT 5
 </table>
 
 - `vendor_id` is removed from display and `ORDER BY` to get one row per customer per date.
+  
   - Including it prevents aggregation, as customers can buy from multiple vendors on the same date.
 
 - Add `customer_id` to `GROUP BY` to ensure the query works without errors. This query will provide the same result:
@@ -572,10 +574,12 @@ LIMIT 5
 </table>
 
 - Aggregation can be done on joined tables too.
+  
   - Join tables first, ensuring no duplicated fields.
   - Then, add the `GROUP BY`.
 
 - To add customer and vendor details:
+  
   - Join the three tables.
   - Inspect the output before grouping.
 
@@ -850,10 +854,11 @@ LIMIT 5
 # MIN and MAX
 
 - To find the most and least expensive items per product category in the `vendor_inventory` table.
+  
   - Vendors set and adjust prices per customer.
   - The `customer_purchases` table has a `cost_to_customer_per_qty` field for price overrides (selling price).
   - The `vendor_inventory` table has original prices per item on each market date.
-  
+
 - We can find the least and most expensive item prices in the entire table by `MIN()` and `MAX()` functions.
 
 ```sql
@@ -938,6 +943,7 @@ GROUP BY pc.product_category_name, p.product_category_id
 - `COUNT DISTINCT` counts unique values in the specified field within the group.
 
 - To find the number of products offered each market date:
+  
   - Count rows in the `vendor_inventory` table, grouped by date.
   - This gives the number of products available, as each row represents a product for each vendor on each market date.
 
@@ -1104,11 +1110,13 @@ ORDER BY vendor_id
 </table>
 
 - We need to consider the meaning of "average product price."
+  
   - The table has one row per product type, so each price is included only once.
   - For example, if a vendor sells 100 tomatoes and bouquets at $20, both prices count only once.
   - This calculation gives the average of one tomato and one bouquet.
 
 - To get a true average price:
+  
   - Multiply each item's quantity by its price.
   - Sum these values and divide by the total quantity of items.
   - Let's perform a calculation using these summary values.
@@ -1202,12 +1210,15 @@ ORDER BY vendor_id
 # Filtering with HAVING
 
 - Filtering can occur after summarization with the `HAVING` clause.
+  
   - `WHERE` filters rows before grouping, as shown previously.
 
 - To filter after aggregation:
+  
   - Use the `HAVING` clause to filter groups based on summary values.
 
 - For example, to filter vendors with more 220 items over a period:
+  
   - Add a `HAVING` clause to the query.
 
 ```sql
@@ -1270,12 +1281,16 @@ ORDER BY vendor_id
 # CASE Statements Inside Aggregate Functions
 
 - Earlier in this chapter, in the query that generated the output in Table 6.7, we added up the quantity value in the `customer_purchases` table.
+  
   - This included discrete items sold individually as well as bulk items sold by ounce or pound.
   - It was awkward to add those quantities together.
 
 - In Chapter 4, “Conditionals / CASE Statements,” you learned about conditional `CASE` statements.
+  
   - Here, we’ll use a `CASE` statement to specify which type of item quantities to add together using each `SUM` aggregate function.
+
 - First, we’ll need to `JOIN` the `customer_purchases` table to the `product` table to pull in the `product_qty_type` column.
+  
   - This column currently only contains the values “unit” and “lbs.”
 
 - In Table 6.7, we added quantity values from `customer_purchases`, mixing individual and bulk items, which was awkward.
@@ -1524,12 +1539,15 @@ LIMIT 5
 # Exercises Using the Included Database
 
 1. Write a query that determines how many times each vendor has rented a booth at the farmer’s market.
-  - Count the vendor booth assignments per `vendor_id`.
+   
+   - Count the vendor booth assignments per `vendor_id`.
 
 2. In Chapter 5, “SQL Joins,” Exercise 3, we asked, “When is each type of fresh fruit or vegetable in season, locally?”
-  - Write a query that displays the product category name, product name, earliest date available, and latest date available for every product in the “Fresh Fruits & Vegetables” product category.
+   
+   - Write a query that displays the product category name, product name, earliest date available, and latest date available for every product in the “Fresh Fruits & Vegetables” product category.
 
 3. The Farmer’s Market Customer Appreciation Committee wants to give a bumper sticker to everyone who has ever spent more than $50 at the market.
-  - Write a query that generates a list of customers for them to give stickers to.
-  - Sort by last name, then first name.
-  - (Hint: This query requires you to join two tables, use an aggregate function, and use the `HAVING` keyword.)
+   
+   - Write a query that generates a list of customers for them to give stickers to.
+   - Sort by last name, then first name.
+   - (Hint: This query requires you to join two tables, use an aggregate function, and use the `HAVING` keyword.)

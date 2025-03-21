@@ -32,8 +32,8 @@ SELECT
     END
 ```
 
-  - This query will always evaluate to "Yes" because `1=1` is always `TRUE`.
-  - The `2=2` conditional statement is never evaluated, even though it is also true.
+- This query will always evaluate to "Yes" because `1=1` is always `TRUE`.
+- The `2=2` conditional statement is never evaluated, even though it is also true.
 
 - Let's label vendors:
   - Vendors with "Fresh" are labeled as "Fresh Produce."
@@ -121,9 +121,11 @@ FROM farmers_market.vendor
 - You can use `UPPER()` with '%FRESH%'`.
 
 - If a new vendor type containing `fresh` is added to the database:
+  
   - The query using the `LIKE` comparison will categorize it as `Fresh Produce` in the `vendor_type_condensed` column.
 
 - To restrict the labeling to existing vendor types:
+  
   - Use the `IN` keyword.
   - Explicitly list the vendor types to be labeled as `Fresh Produce`.
 
@@ -390,10 +392,12 @@ LIMIT 5
 - The other generates a new column of numbers.
 
 - Including both columns in your query can be useful for reports:
+  
   - The `price_bin` column provides explanatory labels but sorts alphabetically.
   - The numeric column sorts bins correctly.
 
 - If a price is mis-entered or a refund is recorded:
+  
   - Negative values will fall into the "Under $5" or 0 bin.
   - This makes `price_bin_lower_end` a misnomer.
   - Ensure your `CASE` statements handle unexpected values appropriately.
@@ -598,16 +602,17 @@ FROM farmers_market.vendor
 # CASE Statement Summary
 
 - Query 1:
-```sql
-SELECT 
+  
+  ```sql
+  SELECT 
     customer_id,
     CASE 
         WHEN customer_zip = '22801' THEN 'Local' 
         ELSE 'Not Local' 
     END customer_location_type 
-FROM farmers_market.customer 
-LIMIT 5
-```
+  FROM farmers_market.customer 
+  LIMIT 5
+  ```
 
 <table>
     <caption>Table 4.8</caption>
@@ -642,8 +647,9 @@ LIMIT 5
 </table>
 
 - Query 2:
-```sql
-SELECT 
+  
+  ```sql
+  SELECT 
     booth_number,
     CASE WHEN booth_price_level = 'A' 
         THEN 1 
@@ -657,9 +663,9 @@ SELECT
         THEN 1 
         ELSE 0 
     END booth_price_level_C 
-FROM farmers_market.booth 
-LIMIT 5
-```
+  FROM farmers_market.booth 
+  LIMIT 5
+  ```
 
 <table>
     <caption>Table 4.9</caption>
@@ -708,12 +714,13 @@ LIMIT 5
 # Excercises
 
 - Look back at Figure 2.1 in Chapter 2 for sample data and column names for the `product` table referenced in these exercises.
-
 1. Products can be sold individually or in bulk (e.g., lbs or oz).
+   
    - Write a query that outputs the `product_id` and `product_name` columns from the `product` table.
    - Add a column called `prod_qty_type_condensed` that displays "unit" if `product_qty_type` is "unit," and "bulk" otherwise.
 
 2. Flag all types of pepper products sold at the market.
+   
    - Add a column to the previous query called `pepper_flag` that outputs 1 if `product_name` contains the word "pepper" (case-insensitive), and 0 otherwise.
 
-3. Can you think of a situation where a pepper product might not be flagged as a pepper product using the code from the previous exercise?
+3. Can you think of a situation where a pepper product might not be flagged as a pepper product using the code from the previous exercise

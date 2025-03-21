@@ -6,26 +6,31 @@ author: "db"
 # Database Relationships and SQL JOINs
 
 - Relationships between tables and key fields help us combine them using a `JOIN` statement.
+  
   - For example:
     - To list each product name with its product category name, we need to combine the `product` and `product_category` tables.
     - The `product` table has product name.
     - The `product_category` table has product category name.
 
 - Figure 5.1 shows the one-to-many relationship between the `product` and `product_category` tables.
+  
   - Each product belongs to one category.
   - Each category can contain many products.
   - The primary key in the `product_category` table is `product_category_id`. Primary keys are marked with an asterisk.
   - Each row in the `product` table has a `product_category_id` as a foreign key, identifying the category each product belongs to. Foreign keys are marked with a double asterisk.
 
 ![Figure 5.1](Fotos/Chapter5/Fig_5.2.png)
+
 <figcaption></figcaption>
 
 - To combine these tables:
+  
   - We need to determine which type of `JOIN` to use.
   - Some columns are removed to simplify.
   - The fields that connect the two tables are `product_category.product_category_id` and `product.product_category_id`.
 
 - `LEFT JOIN`:
+  
   - Retrieves all records from the left table.
   - Retrieves matching records from the right table.
   - Matches based on `JOIN` criteria.
@@ -109,9 +114,11 @@ LIMIT 5
 </table>
 
 - Two `product_category_id` columns appear because we used the asterisk to select all fields from both tables.
+  
   - To fix this, specify the fields to return and include `product_category_id` from only one table or alias the column names.
 
 - To retrieve specific columns:
+  
   - Specify which table each column is from.
   - Alias columns to differentiate them if they have the same name.
 
@@ -238,22 +245,27 @@ LIMIT 5
 </table>
 
 - `RIGHT JOIN`:
+  
   - `RIGHT JOIN` returns all `product_category` records and matching `product` records.
   - The last row has `NULL` values for `product` columns because there are no products with `product_category_id` 6.
 
 - Use `RIGHT JOIN` to:
+  
   - List all product categories and their products.
   - Ignore products not in a category.
 
 - `INNER JOIN`:
+  
   - Only rows with matching `product_category_id` are included.
 
 - There is a FULL JOIN, which is not covered in the book.
+  
   - `FULL JOIN` returns all rows with matches in either table, filling `NULL` for non-matching rows.
 
 ## Illustration
 
 - Practice `JOIN` types with `customer` and `customer_purchase` tables.
+  
   - One-to-many relationship: each customer can have multiple purchases.
   - Tables are related via `customer_id`, the primary key in `customer` and foreign key in `customer_purchase`.
 
@@ -268,8 +280,9 @@ LIMIT 5
 ```
 
 ![Figure 5.12](Fotos/Chapter5/Fig_5.12.png)
+
 <figcaption></figcaption>
- 
+
 - Some customers might not have any purchases; they were added to the `customer` table when they signed up for the loyalty card.
   - `LEFT JOIN` lists all customers and their purchases, if any.
   - Customers with multiple purchases appear multiple times.
@@ -285,13 +298,16 @@ WHERE cp.customer_id IS NULL
 ```
 
 ![Figure 5.13](Fotos/Chapter5/Fig_5.13.png)
+
 <figcaption></figcaption>
 
 - We selected columns from the `customer` table using `c.*`.
+  
   - All `customer_purchases` columns will be `NULL`.
   - Every purchase is logged at checkout, and every customer uses their loyalty card.
 
 - Using a `RIGHT JOIN`:
+  
   - Use `RIGHT JOIN` to pull all `customer_purchases` records.
   - Only customers with purchases are included.
 
@@ -303,6 +319,7 @@ FROM customer AS c
 ```
 
 ![Figure 5.14](Fotos/Chapter5/Fig_5.14.png)
+
 <figcaption></figcaption>
 
 - The output is truncated to save space:
@@ -333,6 +350,7 @@ WHERE cp.customer_id > 0
 ```
 
 - All `customer_id` values are positive integers.
+  
   - Adding this `WHERE` clause filters `customer_id` in `customer_purchases` (alias `cp`).
   - Customers without purchases are excluded.
   - The query behaves like a `RIGHT JOIN`, excluding `NULL` values in `customer_purchases`.
@@ -351,6 +369,7 @@ WHERE cp.market_date <> '2019-03-02' -- <> is !=
 ```
 
 ![Figure 5.15](Fotos/Chapter5/Fig_5.15.png)
+
 <figcaption></figcaption>
 
 - We're missing customers without purchases, like Betty Bullard in Figure 5.12, due to filtering on `market_date` from `customer_purchases`.
@@ -364,7 +383,9 @@ FROM customer AS c
     ON c.customer_id = cp.customer_id
 WHERE (cp.market_date <> '2019-03-02' OR cp.market_date IS NULL)
 ```
+
 ![Figure 5.16](Fotos/Chapter5/Fig_5.16.png)
+
 <figcaption></figcaption>
 
 - Figure 5.16 shows customers without purchases, like Betty Bullard, and those with purchases on other dates.
@@ -378,7 +399,9 @@ FROM customer AS c
     ON c.customer_id = cp.customer_id
 WHERE (cp.market_date <> '2019-03-02' OR cp.market_date IS NULL)
 ```
+
 ![Figure 5.17](Fotos/Chapter5/Fig_5.17.png)
+
 <figcaption></figcaption>
 
 # JOINs with More than Two Tables
@@ -387,14 +410,17 @@ WHERE (cp.market_date <> '2019-03-02' OR cp.market_date IS NULL)
   - Join the three tables in Figure 5.18.
 
 ![Figure 5.18](Fotos/Chapter5/Fig_5.18.png)
+
 <figcaption></figcaption>
 
 - What `JOIN`s could we use to ensure all booths are included, even if they arent assigned to a vendor yet, and all vendors assigned to booths are included?
+  
   - We can `LEFT JOIN` `vendor_booth_assignments` to `booth`, including all booths.
   - `LEFT JOIN` `vendor` to `vendor_booth_assignments`.
   - The query looks like this and results in Figure 5.19:
 
 - We use `JOIN`s to include all booths, even unassigned ones, and all vendors:
+  
   - `LEFT JOIN` `vendor_booth_assignments` with `booth`.
   - `LEFT JOIN` `vendor` with `vendor_booth_assignments`.
 
@@ -414,6 +440,7 @@ ORDER BY b.booth_number, vba.market_date
 ```
 
 ![Figure 5.19](Fotos/Chapter5/Fig_5.19.png)
+
 <figcaption></figcaption>
 
 - The second `JOIN` merges into the first `JOIN` result.
@@ -421,11 +448,13 @@ ORDER BY b.booth_number, vba.market_date
   - Only vendors in `vendor_booth_assignments` are included.
 
 ![Figure 5.20](Fotos/Chapter5/Fig_5.20.png)
+
 <figcaption></figcaption>
 
 - This type of JOIN isn't possible in the Farmer's Market database because no other tables are joined to the `booth` table.
 
 ![Figure 5.21](Fotos/Chapter5/Fig_5.21.png)
+
 <figcaption></figcaption>
 
 - In machine learning, multiple tables are often joined by `LEFT JOIN`ing other tables to a primary table with one row per entity. This adds summarized data (counts or sums) from other tables, keeping the dataset at one row per entity.
@@ -433,6 +462,7 @@ ORDER BY b.booth_number, vba.market_date
 # Exercises
 
 1. Write a query that `INNER JOIN`s the `vendor` table to the `vendor_booth_assignments` table on the `vendor_id` field they have in common.
+   
    - Sort the result by `vendor_name`, then `market_date`.
 
 2. Write a query that produces the same output as the following query but uses a `LEFT JOIN` instead of a `RIGHT JOIN`:
@@ -448,4 +478,4 @@ RIGHT JOIN customer_purchases AS cp
    - The `product_category` table
    - The `product` table
    - The `vendor_inventory` table
-   What type of `JOIN`s would be needed to combine these three tables?
+     What type of `JOIN`s would be needed to combine these three tables
