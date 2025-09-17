@@ -3,27 +3,13 @@ title: "SQL Chapter 7 Time 2"
 author: "db"
 ---
 
-# Introduction
-
-- Regular functions like `ROUND()` return a value per row.
-  - With `GROUP BY`, functions like `AVG()` summarize multiple rows, but still return one value per row.
-- Window functions also work on multiple records without grouping the output.
-  - They compare values from one row to a group, helping answer questions on ranking, comparison, and averages within partitions.
-- Window functions provide aggregate calculations and individual row data for each group.
-  - They can rank or sort values within partitions.
-- In data science, window functions can link past and current records.
-  - For example, showing the first purchase date with detailed records to see how long a customer has been buying.
-
 # ROW NUMBER
 
 To find the cost of the most expensive product sold by each vendor:
 
-- Group `vendor_inventory` records by `vendor_id`.
-- Return the highest `original_price` value with this query:
-
 ```sql
 SELECT 
-    vendor_id, 
+    vendor_id,
     MAX(original_price) AS highest_price 
 FROM farmers_market.vendor_inventory 
 GROUP BY vendor_id
@@ -31,144 +17,358 @@ ORDER BY vendor_id
 ```
 
 <table>
-  <caption>Table 7.1</caption>
-  <tr>
-    <th>vendor_id</th>
-    <th>highest_price</th>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>0.50</td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>6.99</td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>18.00</td>
-  </tr>
+  <thead>
+    <tr>
+      <th>vendor_id</th>
+      <th>highest_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>18.00</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>18.00</td>
+    </tr>
+  </tbody>
 </table>
 
-- The previous query gives the most expensive item price per vendor.
-  - To find the `product_id` linked to `MAX(original_price)` per vendor, use a window function.
-- Use `ROW_NUMBER()` to rank products by price per vendor.
-  - This keeps detailed information that aggregation would otherwise lose.
-
-```sql
-SELECT 
-    vendor_id, market_date, 
-    product_id, original_price,
-    ROW_NUMBER() OVER (PARTITION BY vendor_id ORDER BY original_price DESC) AS price_rank
-FROM farmers_market.vendor_inventory
-ORDER BY vendor_id, original_price DESC
-LIMIT 5
-```
-
-- Let’s break that syntax down a bit.
-  - The `ROW_NUMBER()` line means “number the rows of inventory per vendor, sorted by original price, in descending order.”
-  - The part inside the parentheses shows how to apply the `ROW_NUMBER()` function.
-  - We’re going to `PARTITION BY vendor_id` (this is like a `GROUP BY` without combining the rows, so we’re telling it how to split the rows into groups, without aggregating).
-  - Then within the partition, the `ORDER BY` shows how to sort the rows.
-  - So, we’ll sort the rows by price, high to low, within each `vendor_id` partition, and number each row.
-  - That means the highest-priced item per vendor will be first, and assigned row number 1.
-- You can see in Figure 7.1 that for each vendor, the products are sorted by `original_price`, high to low, and the row numbering column is called `price_rank`.
-  - The row numbering starts over when you get to the next `vendor_id`, so the most expensive item per vendor has a `price_rank` of 1.
-
-![Figure 7.1](Fotos/Chapter7/Fig_7.1.png)
-<figcaption></figcaption>
-
-- To return only the record of the highest-priced item per vendor:
-  - Query the results of the previous query (this is called a subquery).
-  - Limit the output to the #1 ranked item per `vendor_id`.
-- With this approach, you’re not using a `GROUP BY` to aggregate the records.
-  - You’re sorting the records within each partition (a set of records that share a value or combination of values — `vendor_id` in this case).
-  - Then filtering to a value (the row number called `price_rank` here) that was evaluated over that partition.
-- Figure 7.2 shows the highest-priced product per vendor using the following query.
-
-```sql
-SELECT * FROM
-(
-    SELECT 
-        vendor_id, 
-        market_date,
-        product_id, 
-        original_price,
-          ROW_NUMBER() OVER (PARTITION BY vendor_id ORDER BY original_price DESC) AS 
-price_rank
-    FROM farmers_market.vendor_inventory 
-    ORDER BY vendor_id) x
-WHERE x.price_rank = 1
-```
-
-![Figure 7.2](Fotos/Chapter7/Fig_7.2.png)
-<figcaption></figcaption>
-
-- This will only return one row per vendor, even if there are multiple products with the same price.
-  - To return all products with the highest price per vendor when there is more than one with the same price, use the `RANK` function found in the next section.
-
-- If you want to determine which one of the multiple items gets returned by this `ROW_NUMBER` function:
-  - Add additional sorting columns in the `ORDER BY` section of the `ROW_NUMBER` function.
-  - For example, sort by both `original_price` (descending) and `market_date` (ascending) to get the product brought to market by each vendor the earliest that had this top price.
-
-- You’ll notice that the preceding query has a different structure than the queries we have written so far.
-  - There is one query embedded inside the other!
-  - Sometimes this is called “querying from a derived table,” but is more commonly called a “subquery.”
-- What we’re doing is treating the results of the “inner” `SELECT` statement like a table, here given the table alias x.
-  - Selecting all columns from it, and filtering to only the rows with a particular `ROW_NUMBER`.
-  - Our `ROW_NUMBER` column is aliased `price_rank`, and we’re filtering to `price_rank = 1`.
-  - Because we numbered the rows by `original_price` in descending order, the most expensive item will have the lowest row number.
-- The reason we have to structure this as a subquery is that the entire dataset has to be processed in order for the window function to find the highest price per vendor.
-  - We can’t filter the results using a `WHERE` clause (which you’ll remember evaluates the conditional statements row by row) because when that filtering is applied, the `ROW_NUMBER` has not yet been calculated for every row.
-- Figure 7.3 illustrates which parts of the SQL statement are considered the “inner” and “outer” queries.
-  - The “outer” part of a subquery is processed after the “inner” query is complete.
-  - So the row numbers have been determined, and we can then filter by the values in the `price_rank` column.
-
-![Figure 7.3](Fotos/Chapter7/Fig_7.3.png)
-<figcaption></figcaption>
-
-- Many SQL editors allow you to run the inner query by itself.
-  - Highlight it and execute the selected SQL only.
-  - This allows you to preview the results of the inner query that will then be used by the outer query.
-- If we didn’t use a subquery and tried to filter based on the values in the `price_rank` field by adding a `WHERE` clause to the first query with the `ROW_NUMBER` function, we would get an error.
-  - The `price_rank` value is unknown when the `WHERE` clause conditions are evaluated per row because the window functions have not yet checked the entire dataset to determine the ranking.
-  - If we tried to put the `ROW_NUMBER` function in the `WHERE` clause instead of referencing the `price_rank` alias, we would get a different error for the same reason.
-- You will see the subquery format throughout this chapter.
-  - This is because if you want to do anything with the results of most window functions, you have to allow them to calculate across the entire dataset first.
-  - Then, by treating the results like a table, you can query from and filter by the results returned by the window functions.
-- Note that you can also use `ROW_NUMBER` without a `PARTITION BY` clause to number every record across the whole result (instead of numbering per partition).
-  - If you use the same `ORDER BY` clause we did earlier and eliminate the `PARTITION BY` clause, then only one item with the highest price in the entire results set would get the `price_rank` of 1, instead of one item per vendor.
-
-# RANK and DENSE RANK
-
-- Two other window functions are very similar to `ROW_NUMBER`.
-  - They have the same syntax but provide slightly different results.
-- The `RANK` function numbers the results like `ROW_NUMBER`.
-  - However, it gives rows with the same value the same ranking.
-  - If we run the same query as before but replace `ROW_NUMBER` with `RANK`, we get the output shown in Figure 7.4.
+- To find the `product_id` linked to `MAX(original_price)` per vendor, use a window function.
+  - Use `ROW_NUMBER()` to rank products by price per vendor.
 
 ```sql
 SELECT 
     vendor_id, 
-    market_date,
+    market_date, 
     product_id, 
     original_price,
-    RANK() OVER (PARTITION BY vendor_id ORDER BY original_price DESC) AS 
-price_rank
-    FROM farmers_market.vendor_inventory
-ORDER BY vendor_id, original_price DESC
+    ROW_NUMBER() OVER (
+        PARTITION BY vendor_id 
+        ORDER BY original_price DESC
+    ) AS price_rank
+FROM farmers_market.vendor_inventory
+ORDER BY 
+    vendor_id, 
+    original_price DESC
+LIMIT 5;
 ```
 
-![Figure 7.4](Fotos/Chapter7/Fig_7.4.png)
-<figcaption></figcaption>
+<table>
+  <thead>
+    <tr>
+      <th>vendor_id</th>
+      <th>market_date</th>
+      <th>product_id</th>
+      <th>original_price</th>
+      <th>price_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2020-03-07</td>
+      <td>5</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2019-11-13</td>
+      <td>4</td>
+      <td>17.50</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2020-09-26</td>
+      <td>5</td>
+      <td>17.50</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2019-07-06</td>
+      <td>3</td>
+      <td>17.00</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2020-08-19</td>
+      <td>16</td>
+      <td>17.00</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
 
-- If we use a subquery structure and embed this query inside another `SELECT` statement like we did previously, and filter to `price_rank = 1`, multiple rows per vendor would be returned.
-- Notice in Figure 7.4 that the ranking for `vendor_id 1` goes from 1 to 2 to 4, skipping 3.
-  - This happens because there is a tie for second place, so there is no third place.
-- If you do not want to skip numbers like this in your ranking when there is a tie, use the `DENSE_RANK` function.
-  - In this case, the items for `vendor_id` in the example would be numbered 1 and 2 instead of 1 and 4.
-- If you do not want any ties in your numbering at all and want each row to have its own number, use the `ROW_NUMBER` function.
-  - Compare the output in Figure 7.4 to the output in Figure 7.1.
+- To get the highest-priced item per vendor:
+  - Use a subquery to rank items by `vendor_id`.
+  - Limit the output to the top-ranked item per vendor.
+- This method avoids `GROUP BY`:
+  - It sorts records within partitions (`vendor_id` groups).
+  - Filters by the `price_rank` row number for each partition.
+
+```sql
+SELECT 
+    vendor_id, 
+    market_date, 
+    product_id, 
+    original_price
+FROM (
+    SELECT 
+        vendor_id, 
+        market_date, 
+        product_id, 
+        original_price,
+        ROW_NUMBER() OVER (
+            PARTITION BY vendor_id 
+            ORDER BY original_price DESC
+        ) AS price_rank
+    FROM farmers_market.vendor_inventory
+) x
+WHERE x.price_rank = 1;
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>vendor_id</th>
+      <th>market_date</th>
+      <th>product_id</th>
+      <th>original_price</th>
+      <th>price_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2020-03-07</td>
+      <td>5</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2020-08-22</td>
+      <td>8</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2020-03-18</td>
+      <td>7</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2019-05-15</td>
+      <td>4</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>2019-12-21</td>
+      <td>4</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>2019-08-28</td>
+      <td>8</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>2019-06-15</td>
+      <td>8</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>2020-08-19</td>
+      <td>8</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>2020-03-11</td>
+      <td>4</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+- This returns one row per vendor, even if several products share the top price.
+  - To list all highest-priced products per vendor, use the `RANK` function.
+- Unlike earlier queries, this one uses a subquery—an inner query inside another.
+- A subquery is needed because window functions like `ROW_NUMBER` work on the whole dataset, so you can’t filter with `WHERE` based on their results.
+- Subqueries are common with window functions since filtering usually happens after calculation.
+- Most SQL editors let you run just the inner query to preview its output.
+- If you remove `PARTITION BY` from `ROW_NUMBER`, it ranks all rows across the dataset, so only the single highest-priced item gets `price_rank = 1`.
+
+# RANK and DENSE_RANK
+
+- Two other window functions work like `ROW_NUMBER` but give slightly different results.
+- `RANK` numbers rows like `ROW_NUMBER`, but assigns the same rank to rows with equal values.
+
+```sql
+SELECT 
+    vendor_id, 
+    market_date, 
+    product_id, 
+    original_price,
+    RANK() OVER (
+        PARTITION BY vendor_id 
+        ORDER BY original_price DESC
+    ) AS price_rank
+FROM farmers_market.vendor_inventory
+ORDER BY 
+    vendor_id, 
+    original_price DESC
+LIMIT 5;
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>vendor_id</th>
+      <th>market_date</th>
+      <th>product_id</th>
+      <th>original_price</th>
+      <th>price_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2020-03-07</td>
+      <td>5</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2019-11-13</td>
+      <td>4</td>
+      <td>17.50</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2020-09-26</td>
+      <td>5</td>
+      <td>17.50</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2019-07-06</td>
+      <td>3</td>
+      <td>17.00</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2020-08-19</td>
+      <td>16</td>
+      <td>17.00</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+
+- A subquery with `price_rank = 1` can return several rows per vendor.
+- For `vendor_id 1`, the ranking skips 3 because of a tie at second place.
+- Use `DENSE_RANK` to avoid skipped numbers in ties (e.g., 1, 2, 3 instead of 1, 4).
+- Use `ROW_NUMBER` for unique, tie-free rankings.
+
+<table>
+  <thead>
+    <tr>
+      <th>vendor_id</th>
+      <th>market_date</th>
+      <th>product_id</th>
+      <th>original_price</th>
+      <th>price_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2020-03-07</td>
+      <td>5</td>
+      <td>18.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2019-11-13</td>
+      <td>4</td>
+      <td>17.50</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2020-09-26</td>
+      <td>5</td>
+      <td>17.50</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2019-07-06</td>
+      <td>3</td>
+      <td>17.00</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2020-08-19</td>
+      <td>16</td>
+      <td>17.00</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
 
 # NTILE
 
